@@ -1,0 +1,41 @@
+.detail-job-section{
+    .header{
+        h2{
+            margin: 25px 0;
+        }
+        button{
+            width: 100%;
+            cursor: pointer;
+            text-align: center;
+            color: #fff;
+            text-decoration: none;
+            -webkit-font-smoothing: antialiased;
+            font-size: 20px;
+            padding: 10px 15px;
+            border: 0;
+            border-radius: 5px;
+            background-color: #ea1e30;
+            -webkit-font-smoothing: antialiased;
+            outline: 0;
+    
+            &:hover {
+                background-color: #d82727;
+            }
+        }
+    }
+    .content{
+        .salary, .location{
+            margin: 10px 0;
+        }
+    }
+    .company{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        .name{
+            font-size: 20px;
+            font-weight: 600;
+        }
+    }
+}

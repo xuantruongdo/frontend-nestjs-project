@@ -1,67 +1,64 @@
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import {
-  decrement,
-  increment,
-  incrementByAmount,
-  incrementAsync,
-  incrementIfOdd,
-  selectCount,
-} from './redux/counter/counterSlice';
-import styles from './styles/Counter.module.css';
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import LoginPage from "./pages/login";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
+import HomePage from "./components/Home";
+import RegisterPage from "./pages/register";
+import CompanyPage from "./pages/company";
+import JobDetailPage from "./pages/jobDetail";
+import JobListPage from "./pages/jobList";
+
+const Layout = () => {
+  return (
+    <>
+      <Header/>
+      <Outlet/>
+      <Footer/>
+    </>
+  )
+}
 
 export default function App() {
-  const count = useSelector(selectCount);
-  const dispatch = useDispatch();
-  const [incrementAmount, setIncrementAmount] = useState('2');
 
-  const incrementValue = Number(incrementAmount) || 0;
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Layout />,
+      errorElement: <div>404 Not Found</div>,
+      children: [
+        { index: true, element: <HomePage /> },
+        {
+          path: "job/",
+          element: <JobListPage/>
+        },
+        {
+          path: "job/:slug",
+          element: <JobDetailPage/>
+        },
+        {
+          path: "company",
+          element: <CompanyPage/>
+        }
+      ]
+    },
+    {
+      path: "/login",
+      element: <LoginPage/>,
+    },
+    {
+      path: "/register",
+      element: <RegisterPage/>,
+    },
+  ]);
+
 
   return (
-    <div>
-      <div className={styles.row}>
-        <button
-          className={styles.button}
-          aria-label="Decrement value"
-          onClick={() => dispatch(decrement())}
-        >
-          -
-        </button>
-        <span className={styles.value}>{count}</span>
-        <button
-          className={styles.button}
-          aria-label="Increment value"
-          onClick={() => dispatch(increment())}
-        >
-          +
-        </button>
-      </div>
-      <div className={styles.row}>
-        <input
-          className={styles.textbox}
-          aria-label="Set increment amount"
-          value={incrementAmount}
-          onChange={(e) => setIncrementAmount(e.target.value)}
-        />
-        <button
-          className={styles.button}
-          onClick={() => dispatch(incrementByAmount(incrementValue))}
-        >
-          Add Amount
-        </button>
-        <button
-          className={styles.asyncButton}
-          onClick={() => dispatch(incrementAsync(incrementValue))}
-        >
-          Add Async
-        </button>
-        <button
-          className={styles.button}
-          onClick={() => dispatch(incrementIfOdd(incrementValue))}
-        >
-          Add If Odd
-        </button>
-      </div>
-    </div>
+    <>
+      <RouterProvider router={router} />
+    </>
   );
 }
