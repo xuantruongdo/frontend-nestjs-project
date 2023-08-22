@@ -1,7 +1,7 @@
 import './card.scss'
 import { useEffect, useState } from "react";
 import { callFetchJobs } from "../../services/api";
-import { Card, Col, Row, Spin } from "antd";
+import { Card, Col, Pagination, Row, Spin } from "antd";
 import { EnvironmentOutlined, ThunderboltOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -9,10 +9,12 @@ import { convertSlug } from '../../config/utils';
 import { useNavigate } from 'react-router-dom';
 dayjs.extend(relativeTime)
 
-const JobCard = () => {
+const JobCard = (props) => {
+    const { showPagination } = props;
     const [isLoading, setIsLoading] = useState(false);
     const [current, setCurrent] = useState(1);
     const [pageSize, setPageSize] = useState(4);
+    const [total, setTotal] = useState(0);
     const [displayJob, setDisplayJob] = useState([]);
     const [filter, setFilter] = useState("");
     const [sortQuery, setSortQuery] = useState("sort=-updatedAt");
@@ -32,6 +34,7 @@ const JobCard = () => {
         setIsLoading(false)
         if (res?.data) {
             setDisplayJob(res.data.result);
+            setTotal(res.data.meta.total)
         }
     }
 
@@ -42,6 +45,16 @@ const JobCard = () => {
     const handleViewJob = (item) => {
         const slug = convertSlug(item.name);
         navigate(`/job/${slug}?id=${item._id}`);
+    }
+
+    const handleOnchangePage = (pagination) => {
+        if (pagination && pagination.current !== current) {
+            setCurrent(pagination.current)
+        }
+        if (pagination && pagination.pageSize !== pageSize) {
+            setPageSize(pagination.pageSize)
+            setCurrent(1);
+        }
     }
 
     return ( 
@@ -85,6 +98,18 @@ const JobCard = () => {
                             ))
                         }
                     </Row>
+                    {showPagination && <>
+                        <div style={{ marginTop: 30 }}></div>
+                        <Row style={{ display: "flex", justifyContent: "center" }}>
+                            <Pagination
+                                current={current}
+                                total={total}
+                                pageSize={pageSize}
+                                responsive
+                                onChange={(p, s) => handleOnchangePage({ current: p, pageSize: s })}
+                            />
+                        </Row>
+                    </>}
                 </Spin>
             </div>
         </div>

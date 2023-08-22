@@ -11,15 +11,14 @@ const JobDetailPage = () => {
     let params = new URLSearchParams(location.search);
     let id = params?.get("id")
 
-    const [job, setJobs] = useState({})
+    const [job, setJob] = useState({})
 
     const fetchJobById = async () => {
         const res = await callFetchJobById(id);
         if (res?.data?._id) {
-            setJobs(res.data)
+            setJob(res.data)
         }
     }
-    console.log(job);
 
     useEffect(() => {
         fetchJobById()

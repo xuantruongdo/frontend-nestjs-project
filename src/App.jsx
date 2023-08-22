@@ -11,6 +11,7 @@ import RegisterPage from "./pages/register";
 import CompanyPage from "./pages/company";
 import JobDetailPage from "./pages/jobDetail";
 import JobListPage from "./pages/jobList";
+import CompanyDetail from "./pages/companyDetail";
 
 const Layout = () => {
   return (
@@ -42,6 +43,10 @@ export default function App() {
         {
           path: "company",
           element: <CompanyPage/>
+        },
+        {
+          path: "company/:slug",
+          element: <CompanyDetail/>
         }
       ]
     },

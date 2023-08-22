@@ -29,11 +29,13 @@
         }
     }
     .company{
+        margin-top: 50px;
         display: flex;
         align-items: center;
         justify-content: center;
         flex-direction: column;
         .name{
+            margin-top: 20px;
             font-size: 20px;
             font-weight: 600;
         }

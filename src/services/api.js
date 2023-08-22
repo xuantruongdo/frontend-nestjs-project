@@ -16,3 +16,6 @@ export const callFetchJobs = (query) => {
 export const callFetchJobById = (id) => {
   return axios.get(`/api/v1/jobs/${id}`);
 };
+export const callFetchCompanyById = (id) => {
+  return axios.get(`/api/v1/companies/${id}`);
+};
