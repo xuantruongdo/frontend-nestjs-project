@@ -1,9 +1,13 @@
 import { FaReact } from 'react-icons/fa';
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import './header.scss'
-import { ConfigProvider, Menu } from 'antd';
-import { TwitterOutlined, CodeOutlined, RiseOutlined } from '@ant-design/icons';
+import { ConfigProvider, Dropdown, Menu, Space, message } from 'antd';
+import { TwitterOutlined, CodeOutlined, RiseOutlined, ContactsOutlined, DashOutlined, LogoutOutlined  } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { callLogout } from '../../services/api';
+import { doLogoutAction } from '../../redux/account/accountSlice';
+import ModalManageAccount from './modalManageAccount';
 
 const items = [
     {
@@ -27,10 +31,51 @@ const Header = () => {
     const navigate = useNavigate();
     const [current, setCurrent] = useState('home');
     const location = useLocation();
+    const dispatch = useDispatch();
+
+    const [openManageAccount, setOpenManageAccount] = useState(false);
 
     useEffect(() => {
         setCurrent(location.pathname);
     }, [location])
+
+    const user = useSelector((state) => state.account.user);
+    const isAuthenticated = useSelector((state) => state.account.isAuthenticated);
+
+    const handleLogout = async () => {
+        const res = await callLogout();
+        if (res && res.data) {
+            dispatch(doLogoutAction());
+            message.success('Đăng xuất thành công');
+        }
+        navigate('/')
+    }
+
+    const itemsDropdown = [
+        {
+            label: <label
+                style={{ cursor: 'pointer' }}
+                onClick={() => setOpenManageAccount(true)}
+            >Quản lý tài khoản</label>,
+            key: 'manage-account',
+            icon: <ContactsOutlined />
+        },
+        {
+            label: <Link
+                to={"/admin"}
+            >Trang Quản Trị</Link>,
+            key: 'admin',
+            icon: <DashOutlined />
+        },
+        {
+            label: <label
+                style={{ cursor: 'pointer' }}
+                onClick={() => handleLogout()}
+            >Đăng xuất</label>,
+            key: 'logout',
+            icon: <LogoutOutlined />
+        },
+    ];
     return ( 
         <header>
             <div className="container">
@@ -55,11 +100,20 @@ const Header = () => {
                         />  
                         </ConfigProvider>
                         <div className="extra">
+                            {isAuthenticated === false ?
                             <Link to={'/login'}>Đăng Nhập</Link>
+                                :
+                                <Dropdown menu={{ items: itemsDropdown }} trigger={['click']}>
+                                    <Space style={{ cursor: "pointer", color: 'white' }}>
+                                        <span>Welcome {user?.email}</span>
+                                    </Space>
+                                </Dropdown>
+                            }
                         </div>
                     </div>
                 </div>
             </div>
+            <ModalManageAccount openManageAccount={openManageAccount} setOpenManageAccount={ setOpenManageAccount } />
         </header>
      );
 }

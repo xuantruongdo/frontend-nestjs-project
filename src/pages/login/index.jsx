@@ -1,24 +1,31 @@
 import { Button, Form, Input, Divider, message, notification } from 'antd';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { callLogin } from '../../services/api';
+import { useDispatch } from 'react-redux';
+import { doLoginAction } from '../../redux/account/accountSlice';
 
 const LoginPage = () => {
 
     const [isSubmit, setIsSubmit] = useState(false);
-    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    let location = useLocation();
+    let params = new URLSearchParams(location.search);
+    const callback = params?.get("callback");
 
     const onFinish = async (values) => {
         const { email, password } = values;
         setIsSubmit(true);
         let data = { username: email, password }
         const res = await callLogin(data);
-        console.log(res);
         setIsSubmit(false);
-        if (res?.data) {
+        if (res?.data) {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
             localStorage.setItem('access_token', res.data.access_token);
+            dispatch(doLoginAction(res.data.user));
+            console.log(res.data.user);
             message.success("Đăng nhập thành công");
-            navigate("/");
+            window.location.href = callback ? callback : '/';
         } else {
             notification.error({
                 message: 'Có lỗi xảy ra!',
