@@ -4,6 +4,9 @@ const initialState = {
     user: {
       email: "",
       fullname: "",
+      age: "",
+      gender: "",
+      address: "",
       role: {
         _id: "",
         name: ""
@@ -24,11 +27,17 @@ export const accountSlice = createSlice({
         state.isAuthenticated = true;
         state.user = action.payload;
       },
+      doUpdateUser: (state, action) => {
+        state.user = action.payload;
+      },
       doLogoutAction: (state, action) => {
         state.isAuthenticated = false;
         state.user = {
           email: "",
           fullname: "",
+          age: "",
+          gender: "",
+          address: "",
           role: {
             _id: "",
             name: ""
@@ -41,6 +50,6 @@ export const accountSlice = createSlice({
     extraReducers: (builder) => {},
 });
   
-export const { doLoginAction, doGetAccountAction, doLogoutAction } = accountSlice.actions;
+export const { doLoginAction, doGetAccountAction, doLogoutAction, doUpdateUser } = accountSlice.actions;
 
 export default accountSlice.reducer;

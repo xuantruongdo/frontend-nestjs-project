@@ -6,7 +6,6 @@ import { Outlet } from "react-router-dom";
 import LoginPage from "./pages/login";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import HomePage from "./components/Home";
 import RegisterPage from "./pages/register";
 import CompanyPage from "./pages/company";
 import JobDetailPage from "./pages/jobDetail";
@@ -24,9 +23,10 @@ import DashboardAdminPage from "./pages/admin/dashboard";
 import CompanyAdminPage from "./pages/admin/company/company";
 import UserAdminPage from "./pages/admin/user/user";
 import JobAdminPage from "./pages/admin/job/job";
-import ResumeAdminPage from "./pages/admin/resume";
+import ResumeAdminPage from "./pages/admin/resume/resume";
 import PermissionAdminPage from "./pages/admin/permission";
-import RoleAdminPage from "./pages/admin/role";
+import RoleAdminPage from "./pages/admin/role/role";
+import HomePage from "./pages/Home";
 
 const Layout = () => {
   return (

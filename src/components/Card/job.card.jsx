@@ -7,10 +7,11 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { convertSlug } from '../../config/utils';
 import { useNavigate } from 'react-router-dom';
+import moment from "moment/moment";
 dayjs.extend(relativeTime)
 
 const JobCard = (props) => {
-    const { showPagination } = props;
+    const { showPagination, search } = props;
     const [isLoading, setIsLoading] = useState(false);
     const [current, setCurrent] = useState(1);
     const [pageSize, setPageSize] = useState(4);
@@ -24,11 +25,8 @@ const JobCard = (props) => {
     const fetchDisplayJobs = async () => {
         setIsLoading(true)
         let query = `current=${current}&pageSize=${pageSize}`;
-        if (filter) {
-            query += `&${filter}`;
-        }
-        if (sortQuery) {
-            query += `&${sortQuery}`;
+        if (search) {
+            query += `&${search}`;
         }
         const res = await callFetchJobs(query);
         setIsLoading(false)
@@ -40,7 +38,7 @@ const JobCard = (props) => {
 
     useEffect(() => {
         fetchDisplayJobs()
-    }, [current, pageSize, filter, sortQuery])
+    }, [current, pageSize, search])
 
     const handleViewJob = (item) => {
         const slug = convertSlug(item.name);
@@ -89,7 +87,7 @@ const JobCard = (props) => {
                                                     <p>{(item.salary + "")?.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} đ</p>
                                                 </div>
                                                 <div className='job-updatedAt'>
-                                                    <p>{(item.updatedAt)}</p>
+                                                    <p>{moment(item.updatedAt).format("DD-MM-YYYY HH:mm:ss")}</p>
                                                 </div>
                                             </div>
                                         </div>

@@ -1,13 +1,27 @@
 import { Col, Row, Form, Select, Button } from "antd";
 import { LOCATION_LIST, SKILLS_LIST } from "../../config/sample";
+import { useNavigate } from "react-router-dom";
 
 const Search = () => {
   const optionsSkills = SKILLS_LIST;
   const optionsLocations = LOCATION_LIST;
   const [form] = Form.useForm();
+  const navigate = useNavigate();
 
   const onFinish = (values) => {
-    console.log(values);
+    let query = "";
+    if (values.skills) {
+      query += `&skills=${values.skills.join(',')}`;
+    }
+    if (values.location) {
+      query += `&location=${values.location.join(',')}`;
+    }
+    if (query) {
+      handleSearch(query);
+    }
+  };
+  const handleSearch = (query) => {
+    console.log(query);
   };
   const handleChange = (value) => {
     console.log(`selected ${value}`);
@@ -17,11 +31,6 @@ const Search = () => {
     <Form
       form={form}
       onFinish={onFinish}
-      //   submitter={
-      //     {
-      //         render: () => <></>
-      //     }
-      // }
     >
       <Row gutter={[20, 20]}>
         <Col span={24}>

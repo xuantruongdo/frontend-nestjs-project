@@ -50,6 +50,7 @@ const ModalCreate = (props) => {
   };
 
   const onFinish = async (values) => {
+    setLoading(true);
     let data = {
       name: values.name,
       logo: logo,
@@ -64,12 +65,14 @@ const ModalCreate = (props) => {
       setImageUrl("");
       setLogo("");
       fetchDisplayCompanies();
+      setValue("")
     } else {
       notification.error({
         message: "Đã có lỗi xảy ra",
         description: res.message,
       });
     }
+    setLoading(false);
   };
 
   const handleChange = (info) => {
@@ -88,7 +91,6 @@ const ModalCreate = (props) => {
 
   const handleUploadSingleFile = async ({ file, onSuccess, onError }) => {
     const res = await callUploadLogo(file, "company");
-    console.log(res);
     if (res && res.data) {
       setLogo(res.data.file);
       onSuccess("ok");
@@ -186,7 +188,7 @@ const ModalCreate = (props) => {
                 bordered
               >
                 <Col span={24}>
-                  <ReactQuill theme="snow" value={value} onChange={setValue} />
+                  <ReactQuill theme="snow" value={value} onChange={setValue} style={{height: 300}}/>
                 </Col>
               </Card>
             </Form.Item>

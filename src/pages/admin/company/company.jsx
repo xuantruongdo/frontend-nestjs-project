@@ -1,5 +1,5 @@
 import { DeleteOutlined, EditOutlined, PlusOutlined, ReloadOutlined } from "@ant-design/icons";
-import { Button, Descriptions, Drawer, Popconfirm, Space, Table } from "antd";
+import { Button, Descriptions, Drawer, Popconfirm, Space, Table, message, notification } from "antd";
 import moment from "moment/moment";
 import { useEffect, useState } from "react";
 import { callDeleteCompany, callFetchCompanies } from "../../../services/api";
@@ -59,8 +59,6 @@ const CompanyAdminPage = () => {
   }
 
   const onChange = (pagination, filters, sorter, extra) => {
-    console.log(">>> check pagination", pagination);
-    console.log(">>> check sorter", sorter);
     if (pagination && pagination?.current !== current) {
       setCurrent(pagination.current);
     }

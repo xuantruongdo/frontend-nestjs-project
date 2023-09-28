@@ -34,7 +34,6 @@ const UserAdminPage = () => {
     fetchDisplayUsers();
   }, [current, pageSize, filter, sortQuery]);
 
-  console.log(displayUser);
   const renderHeader = () => {
     return (
       <div style={{ display: "flex", justifyContent: "space-between" }}>

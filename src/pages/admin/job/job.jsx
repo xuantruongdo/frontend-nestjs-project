@@ -1,6 +1,15 @@
 import { useEffect, useState } from "react";
-import { callFetchJobs } from "../../../services/api";
-import { Button, Descriptions, Drawer, Popconfirm, Space, Table } from "antd";
+import { callDeleteJob, callFetchJobs } from "../../../services/api";
+import {
+  Button,
+  Descriptions,
+  Drawer,
+  Popconfirm,
+  Space,
+  Table,
+  message,
+  notification,
+} from "antd";
 import {
   DeleteOutlined,
   EditOutlined,
@@ -8,6 +17,8 @@ import {
   ReloadOutlined,
 } from "@ant-design/icons";
 import moment from "moment/moment";
+import ModalCreate from "./modelCreate";
+import ModalUpdate from "./modalUpdate";
 
 const JobAdminPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -20,6 +31,10 @@ const JobAdminPage = () => {
 
   const [open, setOpen] = useState(false);
   const [dataViewDetail, setDataViewDetail] = useState({});
+
+  const [openModalCreate, setOpenModalCreate] = useState(false);
+  const [openModalUpdate, setOpenModalUpdate] = useState(false);
+  const [dataUpdate, setDataUpdate] = useState({});
 
   const fetchDisplayJobs = async () => {
     setIsLoading(true);
@@ -52,7 +67,7 @@ const JobAdminPage = () => {
           <Button
             icon={<PlusOutlined />}
             type="primary"
-            // onClick={showModalCreate}
+            onClick={() => setOpenModalCreate(true)}
           >
             Thêm mới
           </Button>
@@ -92,7 +107,6 @@ const JobAdminPage = () => {
     {
       title: "Logo",
       dataIndex: "company",
-      sorter: true,
       render: (text, record, index) => {
         return (
           <img
@@ -125,9 +139,9 @@ const JobAdminPage = () => {
           <div>
             <Popconfirm
               placement="leftTop"
-              title={"Xác nhận xóa người dùng"}
-              description={"Bạn có chắc xóa người dùng này?"}
-              //   onConfirm={() => handleDeleteUser(record._id)}
+              title={"Xác nhận xóa job"}
+              description={"Bạn có chắc xóa job này?"}
+              onConfirm={() => handleDeleteJob(record._id)}
               okText="Yes"
               cancelText="No"
             >
@@ -138,7 +152,7 @@ const JobAdminPage = () => {
 
             <span
               style={{ cursor: "pointer", margin: "0 20px" }}
-              //   onClick={() => showModalUpdate(record)}
+                onClick={() => showModalUpdate(record)}
             >
               <EditOutlined style={{ color: "#f57800" }} />
             </span>
@@ -167,7 +181,6 @@ const JobAdminPage = () => {
     }
   };
 
-  console.log(displayJob);
   const showDrawer = (record) => {
     setOpen(true);
     setDataViewDetail(record);
@@ -176,6 +189,24 @@ const JobAdminPage = () => {
   const onClose = () => {
     setOpen(false);
   };
+
+  const handleDeleteJob = async (id) => {
+    const res = await callDeleteJob(id);
+    if (res && res.data) {
+      message.success("Xóa job thành công !");
+      fetchDisplayJobs();
+    } else {
+      notification.error({
+        message: "Đã có lỗi xảy ra",
+        description: res.message,
+      });
+    }
+  };
+
+  const showModalUpdate = (record) => {
+    setOpenModalUpdate(true);
+    setDataUpdate(record);
+  }
 
   return (
     <div>
@@ -243,6 +274,17 @@ const JobAdminPage = () => {
           </Descriptions.Item>
         </Descriptions>
       </Drawer>
+      <ModalCreate
+        openModalCreate={openModalCreate}
+        setOpenModalCreate={setOpenModalCreate}
+        fetchDisplayJobs={fetchDisplayJobs}
+      />
+      <ModalUpdate
+        openModalUpdate={openModalUpdate}
+        setOpenModalUpdate={setOpenModalUpdate}
+        fetchDisplayJobs={fetchDisplayJobs}
+        dataUpdate={dataUpdate}
+      />
     </div>
   );
 };

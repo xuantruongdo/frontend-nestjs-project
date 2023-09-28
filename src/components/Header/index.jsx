@@ -51,7 +51,7 @@ const Header = () => {
         navigate('/')
     }
 
-    const itemsDropdown = [
+    let itemsDropdown = [
         {
             label: <label
                 style={{ cursor: 'pointer' }}
@@ -59,13 +59,6 @@ const Header = () => {
             >Quản lý tài khoản</label>,
             key: 'manage-account',
             icon: <ContactsOutlined />
-        },
-        {
-            label: <Link
-                to={"/admin"}
-            >Trang Quản Trị</Link>,
-            key: 'admin',
-            icon: <DashOutlined />
         },
         {
             label: <label
@@ -76,6 +69,19 @@ const Header = () => {
             icon: <LogoutOutlined />
         },
     ];
+
+    if (user?.role.name !== "NORMAL_USER") {
+        itemsDropdown.splice(1, 0, { // Chèn mục mới vào vị trí thứ 1 (sau mục đầu tiên)
+            label: (
+                <Link to="/admin">
+                    Trang Quản Trị
+                </Link>
+            ),
+            key: 'admin',
+            icon: <DashOutlined />,
+        });
+    }
+
     return ( 
         <header>
             <div className="container">

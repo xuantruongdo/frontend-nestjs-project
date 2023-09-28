@@ -127,7 +127,6 @@ const ModalUpdate = (props) => {
 
   const handleUploadSingleFile = async ({ file, onSuccess, onError }) => {
     const res = await callUploadLogo(file, "company");
-    console.log(res);
     if (res && res.data) {
       setLogo(res.data.file);
       onSuccess("ok");

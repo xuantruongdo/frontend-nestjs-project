@@ -22,8 +22,8 @@ const LoginPage = () => {
         setIsSubmit(false);
         if (res?.data) {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
             localStorage.setItem('access_token', res.data.access_token);
-            dispatch(doLoginAction(res.data.user));
             console.log(res.data.user);
+            dispatch(doLoginAction(res.data.user));
             message.success("Đăng nhập thành công");
             window.location.href = callback ? callback : '/';
         } else {
