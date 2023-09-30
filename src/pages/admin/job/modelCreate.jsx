@@ -93,6 +93,8 @@ const ModalCreate = (props) => {
           message.success("Thêm job thành công !");
           setOpenModalCreate(false);
           fetchDisplayJobs();
+          setValue("");
+          form.resetFields();
         } else {
           notification.error({
             message: "Đã có lỗi xảy ra",

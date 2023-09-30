@@ -108,6 +108,7 @@ const ModalCreate = (props) => {
       onOk={() => {
         form.submit();
       }}
+      confirmLoading={loading}
     >
       <Form
         form={form}

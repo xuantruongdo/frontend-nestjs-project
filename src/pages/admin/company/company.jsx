@@ -1,5 +1,23 @@
-import { DeleteOutlined, EditOutlined, PlusOutlined, ReloadOutlined } from "@ant-design/icons";
-import { Button, Descriptions, Drawer, Popconfirm, Space, Table, message, notification } from "antd";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  PlusOutlined,
+  ReloadOutlined,
+} from "@ant-design/icons";
+import {
+  Button,
+  Col,
+  Descriptions,
+  Drawer,
+  Form,
+  Input,
+  Popconfirm,
+  Row,
+  Space,
+  Table,
+  message,
+  notification,
+} from "antd";
 import moment from "moment/moment";
 import { useEffect, useState } from "react";
 import { callDeleteCompany, callFetchCompanies } from "../../../services/api";
@@ -7,7 +25,8 @@ import ModalCreate from "./modalCreate";
 import ModalUpdate from "./modalUpdate";
 
 const CompanyAdminPage = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
   const [current, setCurrent] = useState(1);
   const [pageSize, setPageSize] = useState(8);
   const [total, setTotal] = useState(0);
@@ -20,10 +39,10 @@ const CompanyAdminPage = () => {
   const [openModalCreate, setOpenModalCreate] = useState(false);
   const [openModalUpdate, setOpenModalUpdate] = useState(false);
 
-  const [dataViewUpdate, setDataViewUpdate] = useState({})
+  const [dataViewUpdate, setDataViewUpdate] = useState({});
 
-  const fetchDisplayCompanies = async () => {
-    setIsLoading(true);
+  const fetchDisplayCompanies = async (filter) => {
+    setLoading(true);
     let query = `current=${current}&pageSize=${pageSize}`;
     if (filter) {
       query += `&${filter}`;
@@ -32,7 +51,7 @@ const CompanyAdminPage = () => {
       query += `&${sortQuery}`;
     }
     const res = await callFetchCompanies(query);
-    setIsLoading(false);
+    setLoading(false);
     if (res?.data) {
       setDisplayCompany(res.data.result);
       setTotal(res.data.meta.total);
@@ -44,11 +63,11 @@ const CompanyAdminPage = () => {
   }, [current, pageSize, filter, sortQuery]);
 
   const handleDeleteCompany = async (id) => {
-    setIsLoading(true);
+    setLoading(true);
     const res = await callDeleteCompany(id);
     if (res && res.data) {
-      setIsLoading(false);
-      message.success('Thêm mới công ty thành công');
+      setLoading(false);
+      message.success("Thêm mới công ty thành công");
       fetchDisplayCompanies();
     } else {
       notification.error({
@@ -56,7 +75,7 @@ const CompanyAdminPage = () => {
         description: res.message,
       });
     }
-  }
+  };
 
   const onChange = (pagination, filters, sorter, extra) => {
     if (pagination && pagination?.current !== current) {
@@ -91,7 +110,13 @@ const CompanyAdminPage = () => {
           >
             Thêm mới
           </Button>
-          <Button type="ghost">
+          <Button
+            type="ghost"
+            onClick={() => {
+              setFilter("");
+              setSortQuery("sort=-updatedAt");
+            }}
+          >
             <ReloadOutlined />
           </Button>
         </span>
@@ -105,10 +130,7 @@ const CompanyAdminPage = () => {
       dataIndex: "_id",
       render: (text, record, index) => {
         return (
-          <a
-            href="#"
-            onClick={() => showDrawer(record)}
-          >
+          <a href="#" onClick={() => showDrawer(record)}>
             {record._id}
           </a>
         );
@@ -125,7 +147,7 @@ const CompanyAdminPage = () => {
       render: (text, record, index) => {
         return (
           <img
-            style={{width: "150px"}}
+            style={{ width: "150px" }}
             alt="Logo"
             src={`${import.meta.env.VITE_BACKEND_URL}/images/company/${
               record?.logo
@@ -138,7 +160,7 @@ const CompanyAdminPage = () => {
       title: "Địa chỉ",
       dataIndex: "address",
       sorter: true,
-      width: 300
+      width: 300,
     },
     {
       title: "Create At",
@@ -157,7 +179,7 @@ const CompanyAdminPage = () => {
               placement="leftTop"
               title={"Xác nhận xóa công ty"}
               description={"Bạn có chắc xóa công ty này?"}
-                onConfirm={() => handleDeleteCompany(record._id)}
+              onConfirm={() => handleDeleteCompany(record._id)}
               okText="Yes"
               cancelText="No"
             >
@@ -165,10 +187,10 @@ const CompanyAdminPage = () => {
                 <DeleteOutlined style={{ color: "#ff4d4f" }} />
               </span>
             </Popconfirm>
-  
+
             <span
               style={{ cursor: "pointer", margin: "0 20px" }}
-                onClick={() => showModalUpdate(record)}
+              onClick={() => showModalUpdate(record)}
             >
               <EditOutlined style={{ color: "#f57800" }} />
             </span>
@@ -192,15 +214,59 @@ const CompanyAdminPage = () => {
   };
 
   const showModalUpdate = (record) => {
-    setOpenModalUpdate(true)
-    setDataViewUpdate(record)
-  }
+    setOpenModalUpdate(true);
+    setDataViewUpdate(record);
+  };
+
+  const onFinish = (values) => {
+    let query = "";
+    if (values.name) {
+      query += `&name=/${values.name}/i`;
+    }
+    if (query) {
+      handleSearch(query);
+    }
+  };
+
+  const handleSearch = (filter) => {
+    fetchDisplayCompanies(filter);
+  };
+  const handleClear = () => {
+    form.resetFields();
+  };
 
   return (
     <div>
+      <Form
+        form={form}
+        name="form-filter"
+        initialValues={{ remember: true }}
+        onFinish={onFinish}
+        autoComplete="off"
+      >
+        <Row gutter={[16, 16]} justify="space-arround">
+          <Col span={12}>
+            <Form.Item
+              label="Tên công ty"
+              name="name"
+              rules={[
+                { required: true, message: "Vui lòng nhập tên công ty !" },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+          </Col>
+          <Col>
+            <Button type="primary" htmlType="submit">
+              Tìm kiếm
+            </Button>
+            <Button style={{ marginLeft: "10px" }} onClick={handleClear}>Clear</Button>
+          </Col>
+        </Row>
+      </Form>
       <Table
         title={renderHeader}
-        loading={isLoading}
+        loading={loading}
         columns={columns}
         dataSource={displayCompany}
         onChange={onChange}
@@ -220,7 +286,7 @@ const CompanyAdminPage = () => {
       />
       <Drawer
         title="Chi tiết công ty"
-        placement='right'
+        placement="right"
         width={500}
         onClose={onClose}
         open={open}
@@ -248,8 +314,17 @@ const CompanyAdminPage = () => {
           </Descriptions.Item>
         </Descriptions>
       </Drawer>
-      <ModalCreate openModalCreate={ openModalCreate } setOpenModalCreate={ setOpenModalCreate } fetchDisplayCompanies={fetchDisplayCompanies} />
-      <ModalUpdate openModalUpdate={openModalUpdate} setOpenModalUpdate={setOpenModalUpdate} fetchDisplayCompanies={fetchDisplayCompanies} dataViewUpdate={ dataViewUpdate } />
+      <ModalCreate
+        openModalCreate={openModalCreate}
+        setOpenModalCreate={setOpenModalCreate}
+        fetchDisplayCompanies={fetchDisplayCompanies}
+      />
+      <ModalUpdate
+        openModalUpdate={openModalUpdate}
+        setOpenModalUpdate={setOpenModalUpdate}
+        fetchDisplayCompanies={fetchDisplayCompanies}
+        dataViewUpdate={dataViewUpdate}
+      />
     </div>
   );
 };

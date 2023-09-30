@@ -1,15 +1,11 @@
-import {
-  DeleteOutlined,
-  EditOutlined,
-  PlusOutlined,
-  ReloadOutlined,
-} from "@ant-design/icons";
+import "./permission.scss";
 import {
   Button,
   Col,
   Descriptions,
   Drawer,
   Form,
+  Input,
   Popconfirm,
   Row,
   Select,
@@ -18,40 +14,48 @@ import {
   message,
   notification,
 } from "antd";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  PlusOutlined,
+  ReloadOutlined,
+} from "@ant-design/icons";
 import moment from "moment/moment";
 import { useEffect, useState } from "react";
-import { callDeleteRole, callFetchAllRoles, callFetchRoles } from "../../../services/api";
+import {
+  callDeletePermission,
+  callFetchPermissionsPaginnate,
+} from "../../../services/api";
 import ModalCreate from "./modalCreate";
 import ModalUpdate from "./modalUpdate";
+import { METHOD_LIST, MODULE_LIST } from "../../../config/sample";
 
-const RoleAdminPage = () => {
+const PermissionAdminPage = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [current, setCurrent] = useState(1);
   const [pageSize, setPageSize] = useState(8);
   const [total, setTotal] = useState(0);
-  const [displayRole, setDisplayRole] = useState([]);
+  const [displayPermission, setDisplayPermission] = useState([]);
   const [filter, setFilter] = useState("");
   const [sortQuery, setSortQuery] = useState("sort=-updatedAt");
 
   const [open, setOpen] = useState(false);
-  const [dataViewDetail, setDataViewDetail] = useState({});
   const [openModalCreate, setOpenModalCreate] = useState(false);
   const [openModalUpdate, setOpenModalUpdate] = useState(false);
+  const [dataViewDetail, setDataViewDetail] = useState({});
   const [dataViewUpdate, setDataViewUpdate] = useState({});
-  const [roles, setRoles] = useState([]);
-
   const renderHeader = () => {
     return (
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <span>Danh sách roles</span>
+        <span>Danh sách permission</span>
         <span style={{ display: "flex", gap: 15 }}>
           <Button>Export</Button>
           <Button>Import</Button>
           <Button
             icon={<PlusOutlined />}
             type="primary"
-            onClick={showModalCreate}
+            onClick={() => setOpenModalCreate(true)}
           >
             Thêm mới
           </Button>
@@ -83,6 +87,22 @@ const RoleAdminPage = () => {
     {
       title: "Tên",
       dataIndex: "name",
+    },
+    {
+      title: "API Path",
+      dataIndex: "apiPath",
+    },
+    {
+      title: "Phương thức",
+      dataIndex: "method",
+      sorter: true,
+      render: (text, record, index) => {
+        return <p className={`method ${record?.method}`}>{record?.method}</p>;
+      },
+    },
+    {
+      title: "Module",
+      dataIndex: "module",
       sorter: true,
     },
     {
@@ -100,9 +120,9 @@ const RoleAdminPage = () => {
           <div>
             <Popconfirm
               placement="leftTop"
-              title={"Xác nhận xóa role"}
-              description={"Bạn có chắc xóa role này?"}
-              onConfirm={() => handleDeleteRole(record._id)}
+              title={"Xác nhận xóa permission"}
+              description={"Bạn có chắc xóa permission này?"}
+              onConfirm={() => handleDeleteCompany(record._id)}
               okText="Yes"
               cancelText="No"
             >
@@ -123,11 +143,26 @@ const RoleAdminPage = () => {
     },
   ];
 
-  const showModalCreate = () => {
-    setOpenModalCreate(true);
+  const handleDeleteCompany = async (id) => {
+    setLoading(true);
+    const res = await callDeletePermission(id);
+    if (res && res.data) {
+      message.success("Xóa permission thành công");
+      setOpenModalUpdate(false);
+      fetchDisplayPermissions();
+    } else {
+      notification.error({
+        message: "Đã có lỗi xảy ra",
+        description: res.message,
+      });
+    }
+    setLoading(false);
   };
-
-  const fetchDisplayRoles = async (filter) => {
+  const showModalUpdate = (record) => {
+    setOpenModalUpdate(true);
+    setDataViewUpdate(record);
+  };
+  const fetchDisplayPermissions = async (filter) => {
     setLoading(true);
     let query = `current=${current}&pageSize=${pageSize}`;
     if (filter) {
@@ -136,16 +171,25 @@ const RoleAdminPage = () => {
     if (sortQuery) {
       query += `&${sortQuery}`;
     }
-    const res = await callFetchRoles(query);
-    setLoading(false);
+    const res = await callFetchPermissionsPaginnate(query);
     if (res?.data) {
-      setDisplayRole(res.data.result);
+      setDisplayPermission(res.data.result);
       setTotal(res.data.meta.total);
     }
+    setLoading(false);
   };
+
   useEffect(() => {
-    fetchDisplayRoles();
+    fetchDisplayPermissions();
   }, [current, pageSize, filter, sortQuery]);
+  const showDrawer = (record) => {
+    setOpen(true);
+    setDataViewDetail(record);
+  };
+
+  const onClose = () => {
+    setOpen(false);
+  };
   const onChange = (pagination, filters, sorter, extra) => {
     if (pagination && pagination?.current !== current) {
       setCurrent(pagination.current);
@@ -164,52 +208,24 @@ const RoleAdminPage = () => {
       setSortQuery(q);
     }
   };
-  const handleDeleteRole = async (id) => {
-    setLoading(true);
-    const res = await callDeleteRole(id);
-    if (res && res.data) {
-      message.success("Xóa role thành công");
-      fetchDisplayRoles();
-    } else {
-      notification.error({
-        message: "Đã có lỗi xảy ra",
-        description: res.message,
-      });
-    }
-    setLoading(false);
-  };
-  const showModalUpdate = (record) => {
-    setOpenModalUpdate(true);
-    setDataViewUpdate(record);
-  };
-
-  const showDrawer = (record) => {
-    setOpen(true);
-    setDataViewDetail(record);
-  };
-  const onClose = () => {
-    setOpen(false);
-  };
-  const fetchAllRoles = async () => {
-    const res = await callFetchAllRoles();
-    if (res && res.data) {
-      setRoles(res.data.result);
-    }
-  };
-  useEffect(() => {
-    fetchAllRoles();
-  }, []);
-
   const onFinish = (values) => {
     let query = "";
     if (values.name) {
       query += `&name=/${values.name}/i`;
     }
-    handleSearch(query);
+    if (values.method) {
+      query += `&method=/${values.method}/i`;
+    }
+    if (values.module) {
+      query += `&module=/${values.module}/i`;
+    }
+    if (query) {
+      handleSearch(query);
+    }
   };
 
   const handleSearch = (filter) => {
-    fetchDisplayRoles(filter);
+    fetchDisplayPermissions(filter);
   };
   const handleClear = () => {
     form.resetFields();
@@ -225,14 +241,26 @@ const RoleAdminPage = () => {
       >
         <Row gutter={[16, 16]} justify="space-arround">
           <Col span={6}>
-            <Form.Item label="Vai trò" name="name">
-            <Select placeholder="Vai trò">
-                {roles?.map((item) => (
-                  <Option value={item.name} key={item._id}>
-                    {item.name}
-                  </Option>
-                ))}
-              </Select>
+            <Form.Item label="Tên" name="name">
+              <Input />
+            </Form.Item>
+          </Col>
+          <Col span={6}>
+            <Form.Item label="Phương thức" name="method">
+              <Select
+                allowClear
+                placeholder="Chọn phương thức"
+                options={METHOD_LIST}
+              />
+            </Form.Item>
+          </Col>
+          <Col span={6}>
+            <Form.Item label="Module" name="module">
+              <Select
+                allowClear
+                placeholder="Chọn module"
+                options={MODULE_LIST}
+              />
             </Form.Item>
           </Col>
           <Col>
@@ -249,7 +277,7 @@ const RoleAdminPage = () => {
         title={renderHeader}
         loading={loading}
         columns={columns}
-        dataSource={displayRole}
+        dataSource={displayPermission}
         onChange={onChange}
         pagination={{
           current: current,
@@ -266,7 +294,7 @@ const RoleAdminPage = () => {
         }}
       />
       <Drawer
-        title="Chi tiết role"
+        title="Chi tiết permission"
         placement="right"
         width={500}
         onClose={onClose}
@@ -277,15 +305,21 @@ const RoleAdminPage = () => {
           </Space>
         }
       >
-        <Descriptions title="Thông tin role" bordered column={1}>
+        <Descriptions title="Thông tin permission" bordered column={1}>
           <Descriptions.Item label="ID">
             {dataViewDetail?._id}
           </Descriptions.Item>
-          <Descriptions.Item label="Tên role">
+          <Descriptions.Item label="Tên permission">
             {dataViewDetail?.name}
           </Descriptions.Item>
-          <Descriptions.Item label="Tạo bởi">
-            {dataViewDetail?.createdBy?.email}
+          <Descriptions.Item label="API">
+            {dataViewDetail?.apiPath}
+          </Descriptions.Item>
+          <Descriptions.Item label="Phương thức">
+            {dataViewDetail?.method}
+          </Descriptions.Item>
+          <Descriptions.Item label="Module">
+            {dataViewDetail?.module}
           </Descriptions.Item>
           <Descriptions.Item label="Ngày tạo">
             {moment(dataViewDetail?.createdAt).format("DD-MM-YYYY HH:mm:ss")}
@@ -295,16 +329,16 @@ const RoleAdminPage = () => {
       <ModalCreate
         openModalCreate={openModalCreate}
         setOpenModalCreate={setOpenModalCreate}
-        fetchDisplayRoles={fetchDisplayRoles}
+        fetchDisplayPermissions={fetchDisplayPermissions}
       />
       <ModalUpdate
         openModalUpdate={openModalUpdate}
         setOpenModalUpdate={setOpenModalUpdate}
+        fetchDisplayPermissions={fetchDisplayPermissions}
         dataViewUpdate={dataViewUpdate}
-        fetchDisplayRoles={fetchDisplayRoles}
       />
     </div>
   );
 };
 
-export default RoleAdminPage;
+export default PermissionAdminPage;

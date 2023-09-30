@@ -2,9 +2,14 @@ import { useEffect, useState } from "react";
 import { callDeleteJob, callFetchJobs } from "../../../services/api";
 import {
   Button,
+  Col,
   Descriptions,
   Drawer,
+  Form,
+  Input,
   Popconfirm,
+  Row,
+  Select,
   Space,
   Table,
   message,
@@ -19,9 +24,11 @@ import {
 import moment from "moment/moment";
 import ModalCreate from "./modelCreate";
 import ModalUpdate from "./modalUpdate";
+import { LEVEL_LIST, LOCATION_LIST, SKILLS_LIST } from "../../../config/sample";
 
 const JobAdminPage = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
   const [current, setCurrent] = useState(1);
   const [pageSize, setPageSize] = useState(8);
   const [total, setTotal] = useState(0);
@@ -36,8 +43,8 @@ const JobAdminPage = () => {
   const [openModalUpdate, setOpenModalUpdate] = useState(false);
   const [dataUpdate, setDataUpdate] = useState({});
 
-  const fetchDisplayJobs = async () => {
-    setIsLoading(true);
+  const fetchDisplayJobs = async (filter) => {
+    setLoading(true);
     let query = `current=${current}&pageSize=${pageSize}`;
     if (filter) {
       query += `&${filter}`;
@@ -46,7 +53,7 @@ const JobAdminPage = () => {
       query += `&${sortQuery}`;
     }
     const res = await callFetchJobs(query);
-    setIsLoading(false);
+    setLoading(false);
     if (res?.data) {
       setDisplayJob(res.data.result);
       setTotal(res.data.meta.total);
@@ -71,7 +78,13 @@ const JobAdminPage = () => {
           >
             Thêm mới
           </Button>
-          <Button type="ghost">
+          <Button
+            type="ghost"
+            onClick={() => {
+              setFilter("");
+              setSortQuery("sort=-updatedAt");
+            }}
+          >
             <ReloadOutlined />
           </Button>
         </span>
@@ -152,7 +165,7 @@ const JobAdminPage = () => {
 
             <span
               style={{ cursor: "pointer", margin: "0 20px" }}
-                onClick={() => showModalUpdate(record)}
+              onClick={() => showModalUpdate(record)}
             >
               <EditOutlined style={{ color: "#f57800" }} />
             </span>
@@ -206,13 +219,81 @@ const JobAdminPage = () => {
   const showModalUpdate = (record) => {
     setOpenModalUpdate(true);
     setDataUpdate(record);
-  }
+  };
+
+  const onFinish = (values) => {
+    let query = "";
+    if (values.skills) {
+      query += `&skills=/${values.skills}/i`;
+    }
+    if (values.location) {
+      query += `&location=/${values.location}/i`;
+    }
+    if (values.level) {
+      query += `&level=/${values.level}/i`;
+    }
+    if (query) {
+      handleSearch(query);
+    }
+  };
+
+  const handleSearch = (filter) => {
+    fetchDisplayJobs(filter);
+  };
+  const handleClear = () => {
+    form.resetFields();
+  };
 
   return (
     <div>
+      <Form
+        form={form}
+        name="form-filter"
+        initialValues={{ remember: true }}
+        onFinish={onFinish}
+        autoComplete="off"
+      >
+        <Row gutter={[20, 20]}>
+          <Col span={6}>
+            <Form.Item label="Kĩ năng" name="skills">
+              <Select
+                allowClear
+                placeholder="Chọn kĩ năng"
+                options={SKILLS_LIST}
+              />
+            </Form.Item>
+          </Col>
+          <Col span={6}>
+            <Form.Item label="Địa điểm" name="location">
+              <Select
+                allowClear
+                placeholder="Chọn địa điểm"
+                options={LOCATION_LIST}
+              />
+            </Form.Item>
+          </Col>
+          <Col span={6}>
+            <Form.Item label="Trình độ" name="level">
+              <Select
+                allowClear
+                placeholder="Chọn trình độ"
+                options={LEVEL_LIST}
+              />
+            </Form.Item>
+          </Col>
+          <Col span={6}>
+            <Button type="primary" htmlType="submit">
+              Tìm kiếm
+            </Button>
+            <Button style={{ marginLeft: "10px" }} onClick={handleClear}>
+              Clear
+            </Button>
+          </Col>
+        </Row>
+      </Form>
       <Table
         title={renderHeader}
-        loading={isLoading}
+        loading={loading}
         columns={columns}
         dataSource={displayJob}
         onChange={onChange}

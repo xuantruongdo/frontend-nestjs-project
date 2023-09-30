@@ -28,10 +28,9 @@ const ModalUpdate = (props) => {
   const [isActive, setIsActive] = useState(null);
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
-  const [resetModuleAPI, setResetModuleAPI] = useState(false);
   const handleCancel = () => {
     setOpenModalUpdate(false);
-    setResetModuleAPI(true);
+    window.location.reload();
   };
   const onChangeSwitch = (checked) => {
     setIsActive(checked);

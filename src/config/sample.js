@@ -26,3 +26,32 @@ export const LEVEL_LIST = [
   { label: "MIDDLE", value: "MIDDLE" },
   { label: "SENIOR", value: "SENIOR" },
 ];
+
+export const METHOD_LIST = [
+  { label: "GET", value: "GET" },
+  { label: "POST", value: "POST" },
+  { label: "PUT", value: "PUT" },
+  { label: "PATCH", value: "PATCH" },
+  { label: "DELETE", value: "DELETE" },
+];
+
+export const MODULE_LIST = [
+  { label: "COMPANIES", value: "COMPANIES" },
+  { label: "USERS", value: "USERS" },
+  { label: "FILES", value: "FILES" },
+  { label: "JOBS", value: "JOBS" },
+  { label: "RESUMES", value: "RESUMES" },
+  { label: "PERMISSIONS", value: "PERMISSIONS" },
+  { label: "ROLES", value: "ROLES" },
+  { label: "SUBSCRIBERS", value: "SUBSCRIBERS" }
+];
+export const GENDER_LIST = [
+  { label: "MALE", value: "MALE" },
+  { label: "FEMALE", value: "FEMALE" },
+];
+export const STATUS_LIST = [
+  { label: "PENDING", value: "PENDING" },
+  { label: "REVIEWING", value: "REVIEWING" },
+  { label: "APPROVED", value: "APPROVED" },
+  { label: "REJECTED", value: "REJECTED" },
+];

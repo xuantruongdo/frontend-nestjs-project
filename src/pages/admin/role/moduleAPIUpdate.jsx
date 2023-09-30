@@ -68,7 +68,7 @@ const ModuleAPIUpdate = (props) => {
                       onChange={(checked) =>
                         handleSingleCheck(item.module, value._id, checked)
                       }
-                      checked={isSwitchActive(item.module, value._id)}
+                      defaultChecked={isSwitchActive(item.module, value._id)}
                     />
                   </div>
                   <div

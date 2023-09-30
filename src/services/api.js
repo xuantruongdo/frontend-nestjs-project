@@ -36,6 +36,9 @@ export const callUploadSingleFile = (file, folderType) => {
 export const callFetchCompanies = (query) => {
   return axios.get(`/api/v1/companies?${query}`);
 };
+export const callFetchAllCompanies = () => {
+  return axios.get(`/api/v1/companies?current=1&pageSize=50`);
+};
 export const callFetchCompanyById = (id) => {
   return axios.get(`/api/v1/companies/${id}`);
 };
@@ -78,6 +81,9 @@ export const callFetchResumesByUserId = () => {
 export const callUpdateStatusResume = (id, data) => {
   return axios.patch(`/api/v1/resumes/${id}`, data);
 };
+export const callDeleteResume = (id) => {
+  return axios.delete(`/api/v1/resumes/${id}`);
+};
 
 //Subscriber
 export const callFetchSkills = () => {
@@ -94,13 +100,20 @@ export const callUpdateSkills = (data) => {
 export const callFetchUsers = (query) => {
   return axios.get(`/api/v1/users?${query}`);
 };
-
+export const callCreateUser = (data) => {
+  return axios.post(`/api/v1/users`, data);
+};
 export const callUpdateUser = (id, data) => {
   return axios.patch(`/api/v1/users/${id}`, data);
 };
-
+export const callUpdateUserByAdmin = (id, data) => {
+  return axios.patch(`/api/v1/users/update-user-by-admin/${id}`, data);
+};
 export const callChangePassword = (id, data) => {
   return axios.patch(`/api/v1/users/change-password/${id}`, data);
+};
+export const callDeleteUser = (id) => {
+  return axios.delete(`/api/v1/users/${id}`);
 };
 
 //File
@@ -122,6 +135,9 @@ export const callUploadLogo = (fileImg, folder_type) => {
 export const callFetchRoles = (query) => {
   return axios.get(`/api/v1/roles?${query}`);
 };
+export const callFetchAllRoles = () => {
+  return axios.get(`/api/v1/roles?current=1&pageSize=100`);
+};
 export const callCreateRole = (data) => {
   return axios.post(`/api/v1/roles`, data);
 };
@@ -134,4 +150,30 @@ export const callDeleteRole = (id) => {
 //Permissions
 export const callFetchPermissions = () => {
   return axios.get(`/api/v1/permissions?current=1&pageSize=100`);
+};
+export const callFetchPermissionsPaginnate = (query) => {
+  return axios.get(`/api/v1/permissions?${query}`);
+};
+export const callCreatePermission = (data) => {
+  return axios.post(`/api/v1/permissions`, data);
+};
+export const callUpdatePermission = (id, data) => {
+  return axios.patch(`/api/v1/permissions/${id}`, data);
+};
+export const callDeletePermission = (id) => {
+  return axios.delete(`/api/v1/permissions/${id}`);
+};
+
+//Count
+export const callCountUser = () => {
+  return axios.get(`/api/v1/users/count`);
+};
+export const callCountCompany = () => {
+  return axios.get(`/api/v1/companies/count`);
+};
+export const callCountJob = () => {
+  return axios.get(`/api/v1/jobs/count`);
+};
+export const callCountCV = () => {
+  return axios.get(`/api/v1/resumes/count`);
 };

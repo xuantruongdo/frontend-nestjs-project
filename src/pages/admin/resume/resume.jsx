@@ -6,26 +6,31 @@ import {
   Form,
   Input,
   Popconfirm,
+  Row,
   Select,
-  Space,
   Table,
   message,
   notification,
 } from "antd";
 import {
   DeleteOutlined,
-  EditOutlined,
   PlusOutlined,
   ReloadOutlined,
 } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import moment from "moment";
-import { callFetchResumes, callUpdateStatusResume } from "../../../services/api";
+import {
+  callDeleteResume,
+  callFetchResumes,
+  callUpdateStatusResume,
+} from "../../../services/api";
+import { STATUS_LIST } from "../../../config/sample";
 const ResumeAdminPage = () => {
   const [form] = Form.useForm();
+  const [formSearch] = Form.useForm();
   const [open, setOpen] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [loadingForm, setLoadingForm] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [loadingForm, setLoadingForm] = useState(false);
   const [current, setCurrent] = useState(1);
   const [pageSize, setPageSize] = useState(8);
   const [total, setTotal] = useState(0);
@@ -41,14 +46,16 @@ const ResumeAdminPage = () => {
         <span style={{ display: "flex", gap: 15 }}>
           <Button>Export</Button>
           <Button>Import</Button>
-          <Button
-            icon={<PlusOutlined />}
-            type="primary"
-            // onClick={showModalCreate}
-          >
+          <Button icon={<PlusOutlined />} type="primary">
             Thêm mới
           </Button>
-          <Button type="ghost">
+          <Button
+            type="ghost"
+            onClick={() => {
+              setFilter("");
+              setSortQuery("sort=-updatedAt");
+            }}
+          >
             <ReloadOutlined />
           </Button>
         </span>
@@ -109,7 +116,7 @@ const ResumeAdminPage = () => {
               placement="leftTop"
               title={"Xác nhận xóa CV"}
               description={"Bạn có chắc xóa CV này?"}
-              // onConfirm={() => handleDeleteCompany(record._id)}
+              onConfirm={() => handleDeleteCV(record._id)}
               okText="Yes"
               cancelText="No"
             >
@@ -117,20 +124,28 @@ const ResumeAdminPage = () => {
                 <DeleteOutlined style={{ color: "#ff4d4f" }} />
               </span>
             </Popconfirm>
-
-            <span
-              style={{ cursor: "pointer", margin: "0 20px" }}
-              onClick={() => showModalUpdate(record)}
-            >
-              <EditOutlined style={{ color: "#f57800" }} />
-            </span>
           </div>
         );
       },
     },
   ];
 
-  const fetchDisplayResumes = async () => {
+  const handleDeleteCV = async (id) => {
+    setLoading(true);
+    const res = await callDeleteResume(id);
+    if (res && res.data) {
+      message.success("Xóa CV thành công");
+      fetchDisplayResumes();
+    } else {
+      notification.error({
+        message: "Đã có lỗi xảy ra",
+        description: res.message,
+      });
+    }
+    setLoading(false);
+  };
+
+  const fetchDisplayResumes = async (filter) => {
     setLoading(true);
     let query = `current=${current}&pageSize=${pageSize}`;
     if (filter) {
@@ -150,8 +165,8 @@ const ResumeAdminPage = () => {
     fetchDisplayResumes();
   }, [current, pageSize, filter, sortQuery]);
   useEffect(() => {
-      const init = {
-        _id: dataViewDetail?._id,
+    const init = {
+      _id: dataViewDetail?._id,
       status: dataViewDetail?.status,
     };
     form.setFieldsValue(init);
@@ -183,32 +198,76 @@ const ResumeAdminPage = () => {
   };
 
   const onFinish = async (values) => {
-      const { _id, status } = values;
-      setLoadingForm(true);
-      let data = {
-          status,
-      }
-      const res = await callUpdateStatusResume(_id, data)
-      if (res && res.data) {
-          message.success("Cập nhập CV thành công");
-          setOpen(false);
-          fetchDisplayResumes();
-          setDataViewDetail({});
-      } else {
-        notification.error({
-            message: 'Có lỗi xảy ra',
-            description: res.message
-        });
-      }
-      setLoadingForm(false);
+    const { _id, status } = values;
+    setLoadingForm(true);
+    let data = {
+      status,
+    };
+    const res = await callUpdateStatusResume(_id, data);
+    if (res && res.data) {
+      message.success("Cập nhập CV thành công");
+      setOpen(false);
+      fetchDisplayResumes();
+      setDataViewDetail({});
+    } else {
+      notification.error({
+        message: "Có lỗi xảy ra",
+        description: res.message,
+      });
+    }
+    setLoadingForm(false);
   };
 
   const handleChangeStatus = () => {
-        form.submit();
+    form.submit();
+  };
+
+  const onFinishSearch = (values) => {
+    let query = "";
+    if (values.status) {
+      query += `&status=/${values.status}/i`;
+    }
+    if (query) {
+      handleSearch(query);
+    }
+  };
+
+  const handleSearch = (filter) => {
+    fetchDisplayResumes(filter);
+  };
+  const handleClear = () => {
+    form.resetFields();
   };
 
   return (
     <div>
+      <Form
+        form={formSearch}
+        name="form-filter"
+        initialValues={{ remember: true }}
+        onFinish={onFinishSearch}
+        autoComplete="off"
+      >
+        <Row gutter={[16, 16]} justify="space-arround">
+          <Col span={6}>
+            <Form.Item label="Trạng thái" name="status">
+              <Select
+                allowClear
+                placeholder="Chọn trạng thái"
+                options={STATUS_LIST}
+              />
+            </Form.Item>
+          </Col>
+          <Col>
+            <Button type="primary" htmlType="submit">
+              Tìm kiếm
+            </Button>
+            <Button style={{ marginLeft: "10px" }} onClick={handleClear}>
+              Clear
+            </Button>
+          </Col>
+        </Row>
+      </Form>
       <Table
         title={renderHeader}
         loading={loading}
@@ -236,7 +295,11 @@ const ResumeAdminPage = () => {
         onClose={onClose}
         open={open}
         extra={
-          <Button loading={loadingForm} type="primary" onClick={handleChangeStatus}>
+          <Button
+            loading={loadingForm}
+            type="primary"
+            onClick={handleChangeStatus}
+          >
             Thay đổi trạng thái
           </Button>
         }
@@ -261,28 +324,13 @@ const ResumeAdminPage = () => {
                 <Select
                   style={{ width: "100%" }}
                   defaultValue={dataViewDetail?.status}
-                >
-                  <Option value="PENDING">PENDING</Option>
-                  <Option value="REVIEWING">REVIEWING</Option>
-                  <Option value="APPROVED">APPROVED</Option>
-                  <Option value="REJECTED">REJECTED</Option>
-                </Select>
+                  options={STATUS_LIST}
+                ></Select>
               </Form.Item>
             </Form>
           </Descriptions.Item>
         </Descriptions>
       </Drawer>
-      {/* <ModalCreate
-          openModalCreate={openModalCreate}
-          setOpenModalCreate={setOpenModalCreate}
-          fetchDisplayJobs={fetchDisplayJobs}
-        />
-        <ModalUpdate
-          openModalUpdate={openModalUpdate}
-          setOpenModalUpdate={setOpenModalUpdate}
-          fetchDisplayJobs={fetchDisplayJobs}
-          dataUpdate={dataUpdate}
-        /> */}
     </div>
   );
 };

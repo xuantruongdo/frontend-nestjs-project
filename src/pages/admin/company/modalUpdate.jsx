@@ -143,7 +143,7 @@ const ModalUpdate = (props) => {
       onOk={() => {
         form.submit();
       }}
-      loading={loading}
+      confirmLoading={loading}
     >
       <Form
         form={form}
@@ -238,7 +238,7 @@ const ModalUpdate = (props) => {
                 bordered
               >
                 <Col span={24}>
-                  <ReactQuill theme="snow" value={value} onChange={setValue} />
+                  <ReactQuill theme="snow" value={value} onChange={setValue} style={{height: 300}}/>
                 </Col>
               </Card>
             </Form.Item>
