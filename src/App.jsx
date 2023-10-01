@@ -26,7 +26,7 @@ import JobAdminPage from "./pages/admin/job/job";
 import ResumeAdminPage from "./pages/admin/resume/resume";
 import PermissionAdminPage from "./pages/admin/permission/permission";
 import RoleAdminPage from "./pages/admin/role/role";
-import HomePage from "./pages/Home";
+import HomePage from "./pages/home";
 
 const Layout = () => {
   return (
