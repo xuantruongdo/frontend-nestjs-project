@@ -1,6 +1,6 @@
-import { Button, Form, Input, Divider, message, notification } from 'antd';
+import { Button, Form, Input, Divider, message, notification, Space } from 'antd';
 import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { callLogin } from '../../services/api';
 import { useDispatch } from 'react-redux';
 import { doLoginAction } from '../../redux/account/accountSlice';
@@ -73,6 +73,10 @@ const LoginPage = () => {
                 </Button>
                 </Form.Item>
             </Form>
+            <Space style={{display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: "30px"}}>
+                <span>Bạn chưa có tài khoản ?</span>
+                <NavLink to='/register'>Tạo tài khoản</NavLink>
+            </Space>
         </div>
      );
 }

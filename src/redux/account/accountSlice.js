@@ -32,7 +32,7 @@ export const accountSlice = createSlice({
       },
       doLogoutAction: (state, action) => {
         state.isAuthenticated = false;
-        state.user = {
+        state.user = { 
           email: "",
           fullname: "",
           age: "",
@@ -44,6 +44,7 @@ export const accountSlice = createSlice({
           },
           _id: "",
         };
+        localStorage.removeItem("access_token");
       },
     },
   
