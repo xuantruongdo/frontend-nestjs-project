@@ -112,7 +112,7 @@ const ModalUpdate = (props) => {
     if (res && res.data) {
       setOpenModalUpdate(false);
       setLoading(false);
-      message.success("Thêm mới công ty thành công");
+      message.success("Sửa công ty thành công");
       form.resetFields();
       setImageUrl("");
       setLogo("");
@@ -136,6 +136,7 @@ const ModalUpdate = (props) => {
   };
   return (
     <Modal
+    className="modal-custom-width"
       title="Sửa thông tin công ty"
       width={"50%"}
       open={openModalUpdate}
@@ -185,7 +186,7 @@ const ModalUpdate = (props) => {
         </Row>
 
         <Row justify="space-between" gutter={[16, 16]}>
-          <Col span={8}>
+        <Col xs={24} md={8}>
             <Form.Item
               labelCol={{ span: 24 }}
               label="Logo"
@@ -211,7 +212,7 @@ const ModalUpdate = (props) => {
             </Form.Item>
           </Col>
 
-          <Col span={16}>
+          <Col xs={24} md={16}>
             <Form.Item
               labelCol={{ span: 24 }}
               wrapperCol={{ span: 24 }}

@@ -92,6 +92,7 @@ const ModalUpdate = (props) => {
   };
   return (
     <Modal
+      className="modal-custom-width"
       title="Thêm mới user"
       width={"50%"}
       open={openModalUpdate}
@@ -112,7 +113,7 @@ const ModalUpdate = (props) => {
         autoComplete="off"
       >
         <Row justify="space-between" gutter={[16, 16]}>
-          <Col span={12}>
+          <Col xs={24} sm={12}>
             <Form.Item
               labelCol={{ span: 24 }}
               wrapperCol={{ span: 24 }}
@@ -123,7 +124,7 @@ const ModalUpdate = (props) => {
               <Input disabled />
             </Form.Item>
           </Col>
-          <Col span={12}>
+          <Col xs={24} sm={12}>
             <Form.Item
               labelCol={{ span: 24 }}
               wrapperCol={{ span: 24 }}
@@ -131,10 +132,10 @@ const ModalUpdate = (props) => {
               name="email"
               rules={[{ required: true, message: "Vui lòng nhập email !" }]}
             >
-              <Input />
+              <Input disabled/>
             </Form.Item>
           </Col>
-          <Col span={6}>
+          <Col xs={12} sm={12} md={6}>
             <Form.Item
               labelCol={{ span: 24 }}
               wrapperCol={{ span: 24 }}
@@ -147,7 +148,7 @@ const ModalUpdate = (props) => {
               <Input />
             </Form.Item>
           </Col>
-          <Col span={6}>
+          <Col xs={12} sm={12} md={6}>
             <Form.Item
               labelCol={{ span: 24 }}
               wrapperCol={{ span: 24 }}
@@ -159,7 +160,7 @@ const ModalUpdate = (props) => {
             </Form.Item>
           </Col>
 
-          <Col span={6}>
+          <Col xs={12} sm={12} md={6}>
             <Form.Item
               labelCol={{ span: 24 }}
               wrapperCol={{ span: 24 }}
@@ -170,7 +171,7 @@ const ModalUpdate = (props) => {
               <Select placeholder="Giới tính" options={GENDER_LIST} />
             </Form.Item>
           </Col>
-          <Col span={6}>
+          <Col xs={12} sm={12} md={6}>
             <Form.Item
               labelCol={{ span: 24 }}
               wrapperCol={{ span: 24 }}
@@ -181,7 +182,7 @@ const ModalUpdate = (props) => {
               <Input />
             </Form.Item>
           </Col>
-          <Col span={12}>
+          <Col xs={24} sm={12}>
             <Form.Item
               labelCol={{ span: 24 }}
               wrapperCol={{ span: 24 }}
@@ -198,7 +199,7 @@ const ModalUpdate = (props) => {
               </Select>
             </Form.Item>
           </Col>
-          <Col span={12}>
+          <Col xs={24} sm={12}>
             <Form.Item
               labelCol={{ span: 24 }}
               wrapperCol={{ span: 24 }}

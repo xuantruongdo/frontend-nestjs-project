@@ -18,6 +18,7 @@ import {
   message,
   notification,
 } from "antd";
+import "../admin.scss";
 import moment from "moment/moment";
 import { useEffect, useState } from "react";
 import { callDeleteCompany, callFetchCompanies } from "../../../services/api";
@@ -100,7 +101,13 @@ const CompanyAdminPage = () => {
     return (
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <span>Danh sách công ty</span>
-        <span style={{ display: "flex", gap: 15 }}>
+        <div
+          className="render-header-right"
+          style={{
+            display: "flex",
+            gap: 15,
+          }}
+        >
           <Button>Export</Button>
           <Button>Import</Button>
           <Button
@@ -119,7 +126,7 @@ const CompanyAdminPage = () => {
           >
             <ReloadOutlined />
           </Button>
-        </span>
+        </div>
       </div>
     );
   };
@@ -245,7 +252,7 @@ const CompanyAdminPage = () => {
         autoComplete="off"
       >
         <Row gutter={[16, 16]} justify="space-arround">
-          <Col span={12}>
+          <Col xs={18} md={12}>
             <Form.Item
               label="Tên công ty"
               name="name"
@@ -256,11 +263,22 @@ const CompanyAdminPage = () => {
               <Input />
             </Form.Item>
           </Col>
-          <Col>
+          <Col xs={24} md={12}>
             <Button type="primary" htmlType="submit">
               Tìm kiếm
             </Button>
-            <Button style={{ marginLeft: "10px" }} onClick={handleClear}>Clear</Button>
+            <Button style={{ marginLeft: "10px" }} onClick={handleClear}>
+              Clear
+            </Button>
+          </Col>
+          <Col xs={24} sm={0}>
+            <Button
+              icon={<PlusOutlined />}
+              type="primary"
+              onClick={showModalCreate}
+            >
+              Thêm mới
+            </Button>
           </Col>
         </Row>
       </Form>
@@ -270,6 +288,7 @@ const CompanyAdminPage = () => {
         columns={columns}
         dataSource={displayCompany}
         onChange={onChange}
+        scroll={{ x: true }}
         pagination={{
           current: current,
           pageSize: pageSize,

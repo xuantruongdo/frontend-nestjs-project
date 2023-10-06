@@ -62,7 +62,7 @@ const CompanyCard = (props) => {
                         </Col>
                         {
                             displayCompany.map((item, index) => (
-                                <Col span={24} md={6} key={index}>
+                                <Col span={24} xs={24} sm={12} md={8} xl={6} key={index} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                     <Card
                                         hoverable
                                         style={{ width: 240 }}

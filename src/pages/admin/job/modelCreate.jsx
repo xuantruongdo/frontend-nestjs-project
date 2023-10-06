@@ -65,7 +65,17 @@ const ModalCreate = (props) => {
   };
 
   const onFinish = async (values) => {
-    const { name, company, location, salary, quantity, skills, startDate, endDate, level } = values;
+    const {
+      name,
+      company,
+      location,
+      salary,
+      quantity,
+      skills,
+      startDate,
+      endDate,
+      level,
+    } = values;
     setLoading(true);
     if (startDate && endDate && startDate.isBefore(endDate)) {
       const resFetchCompany = await callFetchCompanyById(company);
@@ -85,9 +95,9 @@ const ModalCreate = (props) => {
           endDate,
           level,
           description: value,
-          isActive: isActive
-        }
-        
+          isActive: isActive,
+        };
+
         const res = await callCreateJob(data);
         if (res && res.data) {
           message.success("Thêm job thành công !");
@@ -111,9 +121,9 @@ const ModalCreate = (props) => {
     setLoading(false);
   };
 
-
   return (
     <Modal
+      className="modal-custom-width"
       title="Thêm mới job"
       width={"50%"}
       open={openModalCreate}
@@ -132,10 +142,9 @@ const ModalCreate = (props) => {
         initialValues={{ remember: true }}
         onFinish={onFinish}
         autoComplete="off"
-
       >
         <Row justify="space-between" gutter={[16, 16]}>
-          <Col span={12}>
+          <Col xs={24} sm={12}>
             <Form.Item
               labelCol={{ span: 24 }}
               wrapperCol={{ span: 24 }}
@@ -146,87 +155,68 @@ const ModalCreate = (props) => {
               <Input placeholder="Nhập tên job" />
             </Form.Item>
           </Col>
-          <Col span={12}>
-            <Row justify="space-between" gutter={[16, 16]}>
-              <Col span={12}>
-                <Form.Item
-                  labelCol={{ span: 24 }}
-                  wrapperCol={{ span: 24 }}
-                  label="Thuộc công ty"
-                  name="company"
-                  rules={[
-                    { required: true, message: "Vui lòng chọn kĩ năng !" },
-                  ]}
-                >
-                  <Select
-                    showSearch
-                    allowClear
-                    placeholder="Chọn công ty"
-                    options={companies}
-                  />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item
-                  labelCol={{ span: 24 }}
-                  wrapperCol={{ span: 24 }}
-                  label="Địa điểm"
-                  name="location"
-                  rules={[
-                    { required: true, message: "Vui lòng chọn địa điểm !" },
-                  ]}
-                >
-                  <Select
-                    placeholder="Chọn một địa điểm"
-                    options={LOCATION_LIST}
-                  />
-                </Form.Item>
-              </Col>
-            </Row>
+          <Col xs={24} sm={12} md={6}>
+            <Form.Item
+              labelCol={{ span: 24 }}
+              wrapperCol={{ span: 24 }}
+              label="Thuộc công ty"
+              name="company"
+              rules={[{ required: true, message: "Vui lòng chọn kĩ năng !" }]}
+            >
+              <Select
+                showSearch
+                allowClear
+                placeholder="Chọn công ty"
+                options={companies}
+              />
+            </Form.Item>
           </Col>
-        </Row>
-        <Row justify="space-between" gutter={[16, 16]}>
-          <Col span={12}>
-            <Row justify="space-between" gutter={[16, 16]}>
-              <Col span={12}>
-                <Form.Item
-                  labelCol={{ span: 24 }}
-                  wrapperCol={{ span: 24 }}
-                  label="Mức lương"
-                  name="salary"
-                  rules={[{ required: true, message: "Vui lòng chọn level !" }]}
-                >
-                  <InputNumber
-                    min={0}
-                    style={{ width: "100%" }}
-                    formatter={(value) =>
-                      `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                    }
-                    addonAfter=" đ"
-                    placeholder="Nhập lương"
-                  />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item
-                  labelCol={{ span: 24 }}
-                  wrapperCol={{ span: 24 }}
-                  label="Số lượng"
-                  name="quantity"
-                  rules={[
-                    { required: true, message: "Vui lòng chọn số lượng !" },
-                  ]}
-                >
-                  <InputNumber
-                    min={1}
-                    style={{ width: "100%" }}
-                    placeholder="Nhập số lượng"
-                  />
-                </Form.Item>
-              </Col>
-            </Row>
+          <Col xs={24} sm={12} md={6}>
+            <Form.Item
+              labelCol={{ span: 24 }}
+              wrapperCol={{ span: 24 }}
+              label="Địa điểm"
+              name="location"
+              rules={[{ required: true, message: "Vui lòng chọn địa điểm !" }]}
+            >
+              <Select placeholder="Chọn một địa điểm" options={LOCATION_LIST} />
+            </Form.Item>
           </Col>
-          <Col span={12}>
+          <Col xs={24} sm={12} md={6}>
+            <Form.Item
+              labelCol={{ span: 24 }}
+              wrapperCol={{ span: 24 }}
+              label="Mức lương"
+              name="salary"
+              rules={[{ required: true, message: "Vui lòng chọn level !" }]}
+            >
+              <InputNumber
+                min={0}
+                style={{ width: "100%" }}
+                formatter={(value) =>
+                  `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                }
+                addonAfter=" đ"
+                placeholder="Nhập lương"
+              />
+            </Form.Item>
+          </Col>
+          <Col xs={24} sm={12} md={6}>
+            <Form.Item
+              labelCol={{ span: 24 }}
+              wrapperCol={{ span: 24 }}
+              label="Số lượng"
+              name="quantity"
+              rules={[{ required: true, message: "Vui lòng chọn số lượng !" }]}
+            >
+              <InputNumber
+                min={1}
+                style={{ width: "100%" }}
+                placeholder="Nhập số lượng"
+              />
+            </Form.Item>
+          </Col>
+          <Col xs={24} sm={12}>
             <Form.Item
               labelCol={{ span: 24 }}
               wrapperCol={{ span: 24 }}
@@ -242,78 +232,64 @@ const ModalCreate = (props) => {
               />
             </Form.Item>
           </Col>
-        </Row>
-        <Row justify="space-between" gutter={[16, 16]}>
-          <Col span={12}>
-            <Row justify="space-between" gutter={[16, 16]}>
-              <Col span={12}>
-                <Form.Item
-                  labelCol={{ span: 24 }}
-                  wrapperCol={{ span: 24 }}
-                  label="Ngày tuyển"
-                  name="startDate"
-                  rules={[
-                    { required: true, message: "Vui lòng chọn ngày tuyển !" },
-                  ]}
-                >
-                  <DatePicker
-                    onChange={onChangeStartDate}
-                    placeholder="dd/mm/yyyy"
-                    format={"DD/MM/YYYY"}
-                  />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item
-                  labelCol={{ span: 24 }}
-                  wrapperCol={{ span: 24 }}
-                  label="Ngày kết thúc"
-                  name="endDate"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Vui lòng chọn ngày kết thúc !",
-                    },
-                  ]}
-                >
-                  <DatePicker
-                    onChange={onChangeEndDate}
-                    placeholder="dd/mm/yyyy"
-                    format={"DD/MM/YYYY"}
-                  />
-                </Form.Item>
-              </Col>
-            </Row>
+          <Col xs={24} sm={12} md={6}>
+            <Form.Item
+              labelCol={{ span: 24 }}
+              wrapperCol={{ span: 24 }}
+              label="Ngày tuyển"
+              name="startDate"
+              rules={[
+                { required: true, message: "Vui lòng chọn ngày tuyển !" },
+              ]}
+            >
+              <DatePicker
+                onChange={onChangeStartDate}
+                placeholder="dd/mm/yyyy"
+                format={"DD/MM/YYYY"}
+              />
+            </Form.Item>
           </Col>
-          <Col span={12}>
-            <Row justify="space-between" gutter={[16, 16]}>
-              <Col span={12}>
-                <Form.Item
-                  labelCol={{ span: 24 }}
-                  wrapperCol={{ span: 24 }}
-                  label="Trình độ"
-                  name="level"
-                  rules={[
-                    { required: true, message: "Vui lòng chọn trình độ !" },
-                  ]}
-                >
-                  <Select placeholder="Chọn một level" options={LEVEL_LIST} />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-              <Form.Item
-                  labelCol={{ span: 24 }}
-                  wrapperCol={{ span: 24 }}
-                  label="Active"
-                  name="isActive"
-                >
-                  <Switch value={isActive} onChange={onChangeSwitch} />;
-                </Form.Item>
-              </Col>
-            </Row>
+          <Col xs={24} sm={12} md={6}>
+            <Form.Item
+              labelCol={{ span: 24 }}
+              wrapperCol={{ span: 24 }}
+              label="Ngày kết thúc"
+              name="endDate"
+              rules={[
+                {
+                  required: true,
+                  message: "Vui lòng chọn ngày kết thúc !",
+                },
+              ]}
+            >
+              <DatePicker
+                onChange={onChangeEndDate}
+                placeholder="dd/mm/yyyy"
+                format={"DD/MM/YYYY"}
+              />
+            </Form.Item>
           </Col>
-        </Row>
-        <Row justify="space-between" gutter={[16, 16]}>
+          <Col xs={24} sm={12} md={6}>
+            <Form.Item
+              labelCol={{ span: 24 }}
+              wrapperCol={{ span: 24 }}
+              label="Trình độ"
+              name="level"
+              rules={[{ required: true, message: "Vui lòng chọn trình độ !" }]}
+            >
+              <Select placeholder="Chọn một level" options={LEVEL_LIST} />
+            </Form.Item>
+          </Col>
+          <Col xs={24} sm={12} md={6}>
+            <Form.Item
+              labelCol={{ span: 24 }}
+              wrapperCol={{ span: 24 }}
+              label="Active"
+              name="isActive"
+            >
+              <Switch value={isActive} onChange={onChangeSwitch} />;
+            </Form.Item>
+          </Col>
           <Col span={24}>
             <Form.Item
               labelCol={{ span: 24 }}
@@ -327,7 +303,12 @@ const ModalCreate = (props) => {
                 bordered
               >
                 <Col span={24}>
-                  <ReactQuill theme="snow" value={value} onChange={setValue} style={{height: '300px'}}/>
+                  <ReactQuill
+                    theme="snow"
+                    value={value}
+                    onChange={setValue}
+                    style={{ height: "300px" }}
+                  />
                 </Col>
               </Card>
             </Form.Item>

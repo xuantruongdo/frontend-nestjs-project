@@ -55,18 +55,18 @@ const DashboardAdminPage = () => {
     ];
 
     return ( 
-        <div>
+        <div style={{ height: "90vh"}}>
             <Row gutter={[16, 16]}>
-                <Col span={6}>
+                <Col xs={{ span: 24 }} sm={{ span: 12 }} lg={{span: 6}}>
                     <DashboardCard icon={<UserOutlined style={{fontSize: 30}}/>} title={"Người dùng"} value={countUser} />
                 </Col>
-                <Col span={6}>
+                <Col xs={{ span: 24 }} sm={{ span: 12 }} lg={{span: 6}}>
                     <DashboardCard icon={<BankOutlined style={{fontSize: 30}}/>} title={"Công ty"} value={countCompany} />
                 </Col>
-                <Col span={6}>
+                <Col xs={{ span: 24 }} sm={{ span: 12 }} lg={{span: 6}}>
                     <DashboardCard icon={<ScheduleOutlined style={{fontSize: 30}}/>} title={"Job"} value={countJob} />
                 </Col>
-                <Col span={6}>
+                <Col xs={{ span: 24 }} sm={{ span: 12 }} lg={{span: 6}}>
                     <DashboardCard icon={<FileTextOutlined style={{fontSize: 30}}/>} title={"CV"} value={countCV} />
                 </Col>
             </Row>

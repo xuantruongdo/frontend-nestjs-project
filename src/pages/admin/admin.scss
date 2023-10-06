@@ -1,0 +1,14 @@
+@media (max-width: 576px) {
+    .render-header-right{
+        display: none!important;
+    }
+    .modal-custom-width {
+        width: 90%!important;
+      }
+  }
+
+  @media (max-width: 768px) {
+    .modal-custom-width {
+        width: 70%!important;
+      }
+  }

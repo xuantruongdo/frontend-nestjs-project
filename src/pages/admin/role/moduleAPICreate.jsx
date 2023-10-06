@@ -49,7 +49,7 @@ const ModuleAPICreate = (props) => {
   }, [checkedSwitches, permissions]);
 
   return (
-    <Collapse accordion>
+    <Collapse accordion style={{overflow: 'hidden'}}>
       {permissions.map((item, index) => (
         <Panel
           header={item.module}
@@ -65,7 +65,7 @@ const ModuleAPICreate = (props) => {
         >
           <Row gutter={[16, 16]}>
             {item.permissions?.map((value, index) => (
-              <Col lg={12} md={12} sm={24} key={index}>
+              <Col xs={24} lg={12} key={index}>
                 <Card
                   size="small"
                   bodyStyle={{ display: "flex", flex: 1, flexDirection: "row" }}

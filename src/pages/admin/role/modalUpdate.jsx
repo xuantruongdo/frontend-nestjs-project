@@ -91,6 +91,7 @@ const ModalUpdate = (props) => {
   }, [dataViewUpdate, form]);
   return (
     <Modal
+      className="modal-custom-width"
       title="Thêm mới role"
       width={"50%"}
       open={openModalUpdate}
@@ -122,7 +123,7 @@ const ModalUpdate = (props) => {
               <Input />
             </Form.Item>
           </Col>
-          <Col span={12}>
+          <Col xs={24} md={12}>
             <Form.Item
               labelCol={{ span: 24 }}
               wrapperCol={{ span: 24 }}
@@ -133,7 +134,7 @@ const ModalUpdate = (props) => {
               <Input />
             </Form.Item>
           </Col>
-          <Col span={12}>
+          <Col xs={24} md={12}>
             <Form.Item
               labelCol={{ span: 24 }}
               wrapperCol={{ span: 24 }}

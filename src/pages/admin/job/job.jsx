@@ -68,7 +68,13 @@ const JobAdminPage = () => {
     return (
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <span>Danh sách công việc</span>
-        <span style={{ display: "flex", gap: 15 }}>
+        <div
+          className="render-header-right"
+          style={{
+            display: "flex",
+            gap: 15,
+          }}
+        >
           <Button>Export</Button>
           <Button>Import</Button>
           <Button
@@ -87,7 +93,7 @@ const JobAdminPage = () => {
           >
             <ReloadOutlined />
           </Button>
-        </span>
+        </div>
       </div>
     );
   };
@@ -254,7 +260,7 @@ const JobAdminPage = () => {
         autoComplete="off"
       >
         <Row gutter={[20, 20]}>
-          <Col span={6}>
+          <Col xs={12} md={6}>
             <Form.Item label="Kĩ năng" name="skills">
               <Select
                 allowClear
@@ -263,7 +269,7 @@ const JobAdminPage = () => {
               />
             </Form.Item>
           </Col>
-          <Col span={6}>
+          <Col xs={12} md={6}>
             <Form.Item label="Địa điểm" name="location">
               <Select
                 allowClear
@@ -272,7 +278,7 @@ const JobAdminPage = () => {
               />
             </Form.Item>
           </Col>
-          <Col span={6}>
+          <Col xs={12} md={6}>
             <Form.Item label="Trình độ" name="level">
               <Select
                 allowClear
@@ -281,12 +287,21 @@ const JobAdminPage = () => {
               />
             </Form.Item>
           </Col>
-          <Col span={6}>
+          <Col xs={24} md={6}>
             <Button type="primary" htmlType="submit">
               Tìm kiếm
             </Button>
             <Button style={{ marginLeft: "10px" }} onClick={handleClear}>
               Clear
+            </Button>
+          </Col>
+          <Col xs={24} sm={0}>
+            <Button
+              icon={<PlusOutlined />}
+              type="primary"
+              onClick={() => setOpenModalCreate(true)}
+            >
+              Thêm mới
             </Button>
           </Col>
         </Row>
@@ -297,6 +312,7 @@ const JobAdminPage = () => {
         columns={columns}
         dataSource={displayJob}
         onChange={onChange}
+        scroll={{x: true}}
         pagination={{
           current: current,
           pageSize: pageSize,

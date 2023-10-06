@@ -43,7 +43,13 @@ const ResumeAdminPage = () => {
     return (
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <span>Danh sách CV</span>
-        <span style={{ display: "flex", gap: 15 }}>
+        <div
+          className="render-header-right"
+          style={{
+            display: "flex",
+            gap: 15,
+          }}
+        >
           <Button>Export</Button>
           <Button>Import</Button>
           <Button icon={<PlusOutlined />} type="primary">
@@ -58,7 +64,7 @@ const ResumeAdminPage = () => {
           >
             <ReloadOutlined />
           </Button>
-        </span>
+        </div>
       </div>
     );
   };
@@ -249,7 +255,7 @@ const ResumeAdminPage = () => {
         autoComplete="off"
       >
         <Row gutter={[16, 16]} justify="space-arround">
-          <Col span={6}>
+        <Col xs={24} md={12}>
             <Form.Item label="Trạng thái" name="status">
               <Select
                 allowClear
@@ -258,7 +264,7 @@ const ResumeAdminPage = () => {
               />
             </Form.Item>
           </Col>
-          <Col>
+          <Col xs={24} md={12}>
             <Button type="primary" htmlType="submit">
               Tìm kiếm
             </Button>
@@ -274,6 +280,7 @@ const ResumeAdminPage = () => {
         columns={columns}
         dataSource={displayResume}
         onChange={onChange}
+        scroll={{x: true}}
         pagination={{
           current: current,
           pageSize: pageSize,

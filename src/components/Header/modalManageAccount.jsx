@@ -92,12 +92,13 @@ const UserResume = () => {
     },
   ];
   return (
-    <Table
-      columns={columns}
-      dataSource={resumesUser}
-      loading={loading}
-      pagination={false}
-    />
+<Table
+  columns={columns}
+  dataSource={resumesUser}
+  loading={loading}
+  pagination={false}
+  scroll={{ x: true }}
+/>
   );
 };
 
@@ -239,7 +240,7 @@ const UpdateInfo = () => {
             <Input />
           </Form.Item>
         </Col>
-        <Col span={12}>
+        <Col xs={{ span: 24 }} md={{ span: 12 }}>
           <Form.Item
             labelCol={{ span: 6 }}
             label="Họ tên"
@@ -249,7 +250,7 @@ const UpdateInfo = () => {
             <Input />
           </Form.Item>
         </Col>
-        <Col span={12}>
+        <Col xs={{ span: 24 }} md={{ span: 12 }}>
           <Form.Item
             labelCol={{ span: 6 }}
             label="Tuổi"
@@ -261,7 +262,7 @@ const UpdateInfo = () => {
         </Col>
       </Row>
       <Row gutter={[20, 20]}>
-        <Col span={12}>
+        <Col xs={{ span: 24 }} md={{ span: 12 }}>
           <Form.Item
             labelCol={{ span: 6 }}
             label="Giới tính"
@@ -278,7 +279,7 @@ const UpdateInfo = () => {
             />
           </Form.Item>
         </Col>
-        <Col span={12}>
+        <Col xs={{ span: 24 }} md={{ span: 12 }}>
           <Form.Item
             labelCol={{ span: 6 }}
             label="Địa chỉ"
@@ -331,7 +332,7 @@ const ChangePassword = () => {
   return (
     <Form form={form} onFinish={onFinish}>
       <Row gutter={[20, 20]} style={{flexDirection: 'column'}} align={"middle"}>
-        <Col span={8}>
+        <Col xs={{ span: 24 }} md={{ span: 8 }}>
           <Form.Item
             labelCol={{ span: 24 }}
             label="Mật khẩu hiện"
@@ -343,7 +344,7 @@ const ChangePassword = () => {
             <Input.Password />
           </Form.Item>
         </Col>
-        <Col span={8}>
+        <Col xs={{ span: 24 }} md={{ span: 8 }}>
           <Form.Item
             labelCol={{ span: 24 }}
             label="Mật khẩu mới"
@@ -355,7 +356,7 @@ const ChangePassword = () => {
             <Input.Password />
           </Form.Item>
         </Col>
-        <Col span={8}>
+        <Col xs={{ span: 24 }} md={{ span: 8 }}>
           <Form.Item
             labelCol={{ span: 24 }}
             label="Xác nhận mật khẩu"

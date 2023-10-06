@@ -40,6 +40,7 @@ const ModalCreate = (props) => {
   };
   return (
     <Modal
+      className="modal-custom-width"
       title="Thêm mới permission"
       width={"50%"}
       open={openModalCreate}
@@ -60,7 +61,7 @@ const ModalCreate = (props) => {
         autoComplete="off"
       >
         <Row justify="space-between" gutter={[16, 16]}>
-          <Col span={12}>
+          <Col xs={24} md={12}>
             <Form.Item
               labelCol={{ span: 24 }}
               wrapperCol={{ span: 24 }}
@@ -73,7 +74,7 @@ const ModalCreate = (props) => {
               <Input />
             </Form.Item>
           </Col>
-          <Col span={12}>
+          <Col xs={24} md={12}>
             <Form.Item
               labelCol={{ span: 24 }}
               wrapperCol={{ span: 24 }}
@@ -86,7 +87,7 @@ const ModalCreate = (props) => {
               <Input />
             </Form.Item>
           </Col>
-          <Col span={12}>
+          <Col xs={24} md={12}>
             <Form.Item
               labelCol={{ span: 24 }}
               wrapperCol={{ span: 24 }}
@@ -102,7 +103,7 @@ const ModalCreate = (props) => {
               />
             </Form.Item>
           </Col>
-          <Col span={12}>
+          <Col xs={24} md={12}>
             <Form.Item
               labelCol={{ span: 24 }}
               wrapperCol={{ span: 24 }}

@@ -154,7 +154,7 @@ const RegisterPage = () => {
           marginLeft: "30px",
         }}
       >
-        <span>Bạn chưa có tài khoản ?</span>
+        <span>Bạn đã có tài khoản ?</span>
         <NavLink to="/login">Đăng nhập</NavLink>
       </Space>
     </div>

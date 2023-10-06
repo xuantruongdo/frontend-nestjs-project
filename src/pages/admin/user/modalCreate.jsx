@@ -64,6 +64,7 @@ const ModalCreate = (props) => {
   };
   return (
     <Modal
+      className="modal-custom-width"
       title="Thêm mới user"
       width={"50%"}
       open={openModalCreate}
@@ -84,7 +85,7 @@ const ModalCreate = (props) => {
         autoComplete="off"
       >
         <Row justify="space-between" gutter={[16, 16]}>
-          <Col span={12}>
+          <Col xs={24} sm={12}>
             <Form.Item
               labelCol={{ span: 24 }}
               wrapperCol={{ span: 24 }}
@@ -95,7 +96,7 @@ const ModalCreate = (props) => {
               <Input />
             </Form.Item>
           </Col>
-          <Col span={12}>
+          <Col xs={24} sm={12}>
             <Form.Item
               labelCol={{ span: 24 }}
               wrapperCol={{ span: 24 }}
@@ -106,7 +107,7 @@ const ModalCreate = (props) => {
               <Input.Password />
             </Form.Item>
           </Col>
-          <Col span={6}>
+          <Col xs={12} sm={12} md={6}>
             <Form.Item
               labelCol={{ span: 24 }}
               wrapperCol={{ span: 24 }}
@@ -119,7 +120,7 @@ const ModalCreate = (props) => {
               <Input />
             </Form.Item>
           </Col>
-          <Col span={6}>
+          <Col xs={12} sm={12} md={6}>
             <Form.Item
               labelCol={{ span: 24 }}
               wrapperCol={{ span: 24 }}
@@ -131,7 +132,7 @@ const ModalCreate = (props) => {
             </Form.Item>
           </Col>
 
-          <Col span={6}>
+          <Col xs={12} sm={12} md={6}>
             <Form.Item
               labelCol={{ span: 24 }}
               wrapperCol={{ span: 24 }}
@@ -142,7 +143,7 @@ const ModalCreate = (props) => {
               <Select placeholder="Giới tính" options={GENDER_LIST} />
             </Form.Item>
           </Col>
-          <Col span={6}>
+          <Col xs={12} sm={12} md={6}>
             <Form.Item
               labelCol={{ span: 24 }}
               wrapperCol={{ span: 24 }}
@@ -153,7 +154,7 @@ const ModalCreate = (props) => {
               <Input />
             </Form.Item>
           </Col>
-          <Col span={12}>
+          <Col xs={24} sm={12}>
             <Form.Item
               labelCol={{ span: 24 }}
               wrapperCol={{ span: 24 }}
@@ -170,7 +171,7 @@ const ModalCreate = (props) => {
               </Select>
             </Form.Item>
           </Col>
-          <Col span={12}>
+          <Col xs={24} sm={12}>
             <Form.Item
               labelCol={{ span: 24 }}
               wrapperCol={{ span: 24 }}

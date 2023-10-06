@@ -20,7 +20,11 @@ import {
 } from "antd";
 import moment from "moment/moment";
 import { useEffect, useState } from "react";
-import { callDeleteRole, callFetchAllRoles, callFetchRoles } from "../../../services/api";
+import {
+  callDeleteRole,
+  callFetchAllRoles,
+  callFetchRoles,
+} from "../../../services/api";
 import ModalCreate from "./modalCreate";
 import ModalUpdate from "./modalUpdate";
 
@@ -45,7 +49,13 @@ const RoleAdminPage = () => {
     return (
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <span>Danh sách roles</span>
-        <span style={{ display: "flex", gap: 15 }}>
+        <div
+          className="render-header-right"
+          style={{
+            display: "flex",
+            gap: 15,
+          }}
+        >
           <Button>Export</Button>
           <Button>Import</Button>
           <Button
@@ -64,7 +74,7 @@ const RoleAdminPage = () => {
           >
             <ReloadOutlined />
           </Button>
-        </span>
+        </div>
       </div>
     );
   };
@@ -224,9 +234,9 @@ const RoleAdminPage = () => {
         autoComplete="off"
       >
         <Row gutter={[16, 16]} justify="space-arround">
-          <Col span={6}>
+          <Col xs={24} md={12}>
             <Form.Item label="Vai trò" name="name">
-            <Select placeholder="Vai trò">
+              <Select placeholder="Vai trò">
                 {roles?.map((item) => (
                   <Option value={item.name} key={item._id}>
                     {item.name}
@@ -235,12 +245,21 @@ const RoleAdminPage = () => {
               </Select>
             </Form.Item>
           </Col>
-          <Col>
+          <Col xs={24} md={12}>
             <Button type="primary" htmlType="submit">
               Tìm kiếm
             </Button>
             <Button style={{ marginLeft: "10px" }} onClick={handleClear}>
               Clear
+            </Button>
+          </Col>
+          <Col xs={24} sm={0}>
+            <Button
+              icon={<PlusOutlined />}
+              type="primary"
+              onClick={() => setOpenModalCreate(true)}
+            >
+              Thêm mới
             </Button>
           </Col>
         </Row>
@@ -251,6 +270,7 @@ const RoleAdminPage = () => {
         columns={columns}
         dataSource={displayRole}
         onChange={onChange}
+        scroll={{ x: true }}
         pagination={{
           current: current,
           pageSize: pageSize,

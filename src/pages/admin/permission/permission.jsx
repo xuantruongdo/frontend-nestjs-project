@@ -49,7 +49,13 @@ const PermissionAdminPage = () => {
     return (
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <span>Danh sách permission</span>
-        <span style={{ display: "flex", gap: 15 }}>
+        <div
+          className="render-header-right"
+          style={{
+            display: "flex",
+            gap: 15,
+          }}
+        >
           <Button>Export</Button>
           <Button>Import</Button>
           <Button
@@ -68,7 +74,7 @@ const PermissionAdminPage = () => {
           >
             <ReloadOutlined />
           </Button>
-        </span>
+        </div>
       </div>
     );
   };
@@ -240,12 +246,12 @@ const PermissionAdminPage = () => {
         autoComplete="off"
       >
         <Row gutter={[16, 16]} justify="space-arround">
-          <Col span={6}>
+          <Col xs={24} sm={12} md={6}>
             <Form.Item label="Tên" name="name">
               <Input />
             </Form.Item>
           </Col>
-          <Col span={6}>
+          <Col xs={24} sm={12} md={6}>
             <Form.Item label="Phương thức" name="method">
               <Select
                 allowClear
@@ -254,7 +260,7 @@ const PermissionAdminPage = () => {
               />
             </Form.Item>
           </Col>
-          <Col span={6}>
+          <Col xs={24} sm={12} md={6}>
             <Form.Item label="Module" name="module">
               <Select
                 allowClear
@@ -263,12 +269,21 @@ const PermissionAdminPage = () => {
               />
             </Form.Item>
           </Col>
-          <Col>
+          <Col xs={24} sm={12} md={6}>
             <Button type="primary" htmlType="submit">
               Tìm kiếm
             </Button>
             <Button style={{ marginLeft: "10px" }} onClick={handleClear}>
               Clear
+            </Button>
+          </Col>
+          <Col xs={24} sm={0}>
+            <Button
+              icon={<PlusOutlined />}
+              type="primary"
+              onClick={() => setOpenModalCreate(true)}
+            >
+              Thêm mới
             </Button>
           </Col>
         </Row>
@@ -279,6 +294,7 @@ const PermissionAdminPage = () => {
         columns={columns}
         dataSource={displayPermission}
         onChange={onChange}
+        scroll={{x: true}}
         pagination={{
           current: current,
           pageSize: pageSize,
