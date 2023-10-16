@@ -45,6 +45,14 @@ const PermissionAdminPage = () => {
   const [openModalUpdate, setOpenModalUpdate] = useState(false);
   const [dataViewDetail, setDataViewDetail] = useState({});
   const [dataViewUpdate, setDataViewUpdate] = useState({});
+
+  const reload = () => {
+    fetchDisplayPermissions();
+    form.resetFields();
+    setFilter("");
+    setSortQuery("sort=-updatedAt");
+  }
+
   const renderHeader = () => {
     return (
       <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -67,10 +75,7 @@ const PermissionAdminPage = () => {
           </Button>
           <Button
             type="ghost"
-            onClick={() => {
-              setFilter("");
-              setSortQuery("sort=-updatedAt");
-            }}
+            onClick={reload}
           >
             <ReloadOutlined />
           </Button>
@@ -303,7 +308,7 @@ const PermissionAdminPage = () => {
           showTotal: (total, range) => {
             return (
               <div>
-                {range[0]} - {range[1]} trên {total} rows
+                Từ {range[0]} - {range[1]} / {total} hàng dữ liệu
               </div>
             );
           },

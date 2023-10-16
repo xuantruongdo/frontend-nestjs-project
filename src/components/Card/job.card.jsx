@@ -17,8 +17,6 @@ const JobCard = (props) => {
     const [pageSize, setPageSize] = useState(4);
     const [total, setTotal] = useState(0);
     const [displayJob, setDisplayJob] = useState([]);
-    const [filter, setFilter] = useState("");
-    const [sortQuery, setSortQuery] = useState("sort=-updatedAt");
 
     const navigate = useNavigate();
     
@@ -58,18 +56,19 @@ const JobCard = (props) => {
     return ( 
         <div className='job-section'>
             <div className="job-content">
-                <Spin spinning={isLoading} tip="Loading...">
-                    <Row gutter={[20, 20]}>
+                <Spin spinning={isLoading} tip="Loading..." style={{width: "100%"}}>
+                    <Row gutter={[20, 20]}
+                    >
                         <Col span={24}>
                             <h2>Công việc mới nhất</h2>
                         </Col>
                         {
                             displayJob.map((item, index) => (
-                                <Col span={24} md={12} key={index}>
+                                <Col md={12} key={index}>
                                     <Card size="small" title={null} hoverable
                                         onClick={() => handleViewJob(item)}
                                     >
-                                        <div className="card-job-content" >
+                                        <div className="card-job-content">
                                             <div className='card-job-left'>
                                                 <img
                                                     alt="example"

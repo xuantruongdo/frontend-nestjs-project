@@ -64,6 +64,13 @@ const JobAdminPage = () => {
     fetchDisplayJobs();
   }, [current, pageSize, filter, sortQuery]);
 
+  const reload = () => {
+    fetchDisplayJobs();
+    form.resetFields();
+    setFilter("");
+    setSortQuery("sort=-updatedAt");
+  }
+
   const renderHeader = () => {
     return (
       <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -86,10 +93,7 @@ const JobAdminPage = () => {
           </Button>
           <Button
             type="ghost"
-            onClick={() => {
-              setFilter("");
-              setSortQuery("sort=-updatedAt");
-            }}
+            onClick={reload}
           >
             <ReloadOutlined />
           </Button>
@@ -321,7 +325,7 @@ const JobAdminPage = () => {
           showTotal: (total, range) => {
             return (
               <div>
-                {range[0]} - {range[1]} trên {total} rows
+                Từ {range[0]} - {range[1]} / {total} hàng dữ liệu
               </div>
             );
           },

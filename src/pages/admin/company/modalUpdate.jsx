@@ -238,7 +238,7 @@ const ModalUpdate = (props) => {
                 size="small"
                 bordered
               >
-                <Col span={24}>
+                <Col span={24} style={{marginBottom: 50}}>
                   <ReactQuill theme="snow" value={value} onChange={setValue} style={{height: 300}}/>
                 </Col>
               </Card>

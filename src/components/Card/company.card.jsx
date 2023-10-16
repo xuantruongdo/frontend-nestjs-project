@@ -12,20 +12,12 @@ const CompanyCard = (props) => {
     const [pageSize, setPageSize] = useState(4);
     const [total, setTotal] = useState(4);
     const [displayCompany, setDisplayCompany] = useState([]);
-    const [filter, setFilter] = useState("");
-    const [sortQuery, setSortQuery] = useState("sort=-updatedAt");
 
     const navigate = useNavigate();
     
     const fetchDisplayCompanies = async () => {
         setIsLoading(true)
         let query = `current=${current}&pageSize=${pageSize}`;
-        if (filter) {
-            query += `&${filter}`;
-        }
-        if (sortQuery) {
-            query += `&${sortQuery}`;
-        }
         const res = await callFetchCompanies(query);
         setIsLoading(false)
         if (res?.data) {
@@ -36,7 +28,7 @@ const CompanyCard = (props) => {
 
     useEffect(() => {
         fetchDisplayCompanies()
-    }, [current, pageSize, filter, sortQuery])
+    }, [current, pageSize])
 
     const handleViewCompany = (item) => {
         const slug = convertSlug(item.name);

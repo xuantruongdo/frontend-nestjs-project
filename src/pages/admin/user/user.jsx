@@ -70,6 +70,13 @@ const UserAdminPage = () => {
     fetchDisplayUsers();
   }, [current, pageSize, filter, sortQuery]);
 
+  const reload = () => {
+    fetchDisplayUsers();
+    form.resetFields();
+    setFilter("");
+    setSortQuery("sort=-updatedAt");
+  }
+
   const renderHeader = () => {
     return (
       <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -92,10 +99,7 @@ const UserAdminPage = () => {
           </Button>
           <Button
             type="ghost"
-            onClick={() => {
-              setFilter("");
-              setSortQuery("sort=-updatedAt");
-            }}
+            onClick={reload}
           >
             <ReloadOutlined />
           </Button>
@@ -308,7 +312,7 @@ const UserAdminPage = () => {
           showTotal: (total, range) => {
             return (
               <div>
-                {range[0]} - {range[1]} trên {total} rows
+                Từ {range[0]} - {range[1]} / {total} hàng dữ liệu
               </div>
             );
           },

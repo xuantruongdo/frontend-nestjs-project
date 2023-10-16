@@ -149,7 +149,8 @@ const JobDetailPage = () => {
                 &nbsp;{job.location}
               </div>
               <div>
-                <HistoryOutlined /> {dayjs(job.updatedAt).format("DD-MM-YYYY HH:mm:ss")}
+                <HistoryOutlined />{" "}
+                {dayjs(job.updatedAt).format("DD-MM-YYYY HH:mm:ss")}
               </div>
               <Divider />
               {parse(job.description)}
@@ -198,7 +199,16 @@ const JobDetailPage = () => {
                 rules={[{ required: true, message: "Vui lòng upload file!" }]}
               >
                 <Upload {...propsUpload}>
-                  <Button icon={<UploadOutlined />}>
+                  <Button
+                    icon={<UploadOutlined />}
+                    style={{
+                      display: "flex",
+                      height: "auto",
+                      alignItems: "center",
+                      whiteSpace: "normal",
+                      width: "100%",
+                    }}
+                  >
                     Tải lên CV của bạn ( Hỗ trợ *.doc, *.docx, *.pdf, and &lt;
                     5MB )
                   </Button>

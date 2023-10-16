@@ -32,7 +32,7 @@ const HomePage = () => {
             <h2>Việc làm IT Cho Developer</h2>
           </Col>
           <Col span={24} xs={24} md={12}>
-            <Form.Item label="Skills" name="skills">
+            <Form.Item label="Kĩ năng" name="skills">
               <Select
                 mode="multiple"
                 allowClear
@@ -42,7 +42,7 @@ const HomePage = () => {
             </Form.Item>
           </Col>
           <Col span={12} xs={24} md={8}>
-            <Form.Item label="Location" name="location">
+            <Form.Item label="Địa điểm" name="location">
               <Select
                 mode="multiple"
                 allowClear

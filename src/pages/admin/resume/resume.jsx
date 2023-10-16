@@ -39,6 +39,13 @@ const ResumeAdminPage = () => {
   const [displayResume, setDisplayResume] = useState([]);
   const [dataViewDetail, setDataViewDetail] = useState({});
 
+  const reload = () => {
+    fetchDisplayResumes();
+    formSearch.resetFields();
+    setFilter("");
+    setSortQuery("sort=-updatedAt");
+  };
+
   const renderHeader = () => {
     return (
       <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -55,13 +62,7 @@ const ResumeAdminPage = () => {
           <Button icon={<PlusOutlined />} type="primary">
             Thêm mới
           </Button>
-          <Button
-            type="ghost"
-            onClick={() => {
-              setFilter("");
-              setSortQuery("sort=-updatedAt");
-            }}
-          >
+          <Button type="ghost" onClick={reload}>
             <ReloadOutlined />
           </Button>
         </div>
@@ -255,7 +256,7 @@ const ResumeAdminPage = () => {
         autoComplete="off"
       >
         <Row gutter={[16, 16]} justify="space-arround">
-        <Col xs={24} md={12}>
+          <Col xs={24} md={12}>
             <Form.Item label="Trạng thái" name="status">
               <Select
                 allowClear
@@ -280,7 +281,7 @@ const ResumeAdminPage = () => {
         columns={columns}
         dataSource={displayResume}
         onChange={onChange}
-        scroll={{x: true}}
+        scroll={{ x: true }}
         pagination={{
           current: current,
           pageSize: pageSize,
@@ -289,7 +290,7 @@ const ResumeAdminPage = () => {
           showTotal: (total, range) => {
             return (
               <div>
-                {range[0]} - {range[1]} trên {total} rows
+                Từ {range[0]} - {range[1]} / {total} hàng dữ liệu
               </div>
             );
           },

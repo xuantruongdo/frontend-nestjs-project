@@ -97,6 +97,13 @@ const CompanyAdminPage = () => {
     }
   };
 
+  const reload = () => {
+    fetchDisplayCompanies();
+    form.resetFields();
+    setFilter("");
+    setSortQuery("sort=-updatedAt");
+  }
+
   const renderHeader = () => {
     return (
       <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -119,10 +126,7 @@ const CompanyAdminPage = () => {
           </Button>
           <Button
             type="ghost"
-            onClick={() => {
-              setFilter("");
-              setSortQuery("sort=-updatedAt");
-            }}
+            onClick={reload}
           >
             <ReloadOutlined />
           </Button>
@@ -297,7 +301,7 @@ const CompanyAdminPage = () => {
           showTotal: (total, range) => {
             return (
               <div>
-                {range[0]} - {range[1]} trên {total} rows
+                Từ {range[0]} - {range[1]} / {total} hàng dữ liệu
               </div>
             );
           },

@@ -45,6 +45,13 @@ const RoleAdminPage = () => {
   const [dataViewUpdate, setDataViewUpdate] = useState({});
   const [roles, setRoles] = useState([]);
 
+  const reload = () => {
+    fetchAllRoles();
+    form.resetFields();
+    setFilter("");
+    setSortQuery("sort=-updatedAt");
+  }
+
   const renderHeader = () => {
     return (
       <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -67,10 +74,7 @@ const RoleAdminPage = () => {
           </Button>
           <Button
             type="ghost"
-            onClick={() => {
-              setFilter("");
-              setSortQuery("sort=-updatedAt");
-            }}
+            onClick={reload}
           >
             <ReloadOutlined />
           </Button>
@@ -279,7 +283,7 @@ const RoleAdminPage = () => {
           showTotal: (total, range) => {
             return (
               <div>
-                {range[0]} - {range[1]} trên {total} rows
+                Từ {range[0]} - {range[1]} / {total} hàng dữ liệu
               </div>
             );
           },

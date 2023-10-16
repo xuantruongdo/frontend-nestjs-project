@@ -290,7 +290,7 @@ const ModalCreate = (props) => {
               <Switch value={isActive} onChange={onChangeSwitch} />;
             </Form.Item>
           </Col>
-          <Col span={24}>
+          <Col span={24} style={{marginBottom: 50}}>
             <Form.Item
               labelCol={{ span: 24 }}
               wrapperCol={{ span: 24 }}

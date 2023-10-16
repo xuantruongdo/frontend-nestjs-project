@@ -248,11 +248,6 @@ const ModalUpdate = (props) => {
               />
             </Form.Item>
           </Col>
-        </Row>
-        <Row justify="space-between" gutter={[16, 16]}>
-          <Col span={12}>
-            <Row justify="space-between" gutter={[16, 16]}></Row>
-          </Col>
           <Col xs={24} sm={12}>
             <Form.Item
               labelCol={{ span: 24 }}
@@ -329,7 +324,7 @@ const ModalUpdate = (props) => {
               <Switch checked={isActive} onChange={onChangeSwitch} />;
             </Form.Item>
           </Col>
-          <Col span={24}>
+          <Col span={24} style={{marginBottom: 50}}>
             <Form.Item
               labelCol={{ span: 24 }}
               wrapperCol={{ span: 24 }}
