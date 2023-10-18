@@ -57,14 +57,13 @@ const JobCard = (props) => {
         <div className='job-section'>
             <div className="job-content">
                 <Spin spinning={isLoading} tip="Loading..." style={{width: "100%"}}>
-                    <Row gutter={[20, 20]}
-                    >
+                    <Row gutter={[20, 20]}>
                         <Col span={24}>
                             <h2>Công việc mới nhất</h2>
                         </Col>
                         {
                             displayJob.map((item, index) => (
-                                <Col md={12} key={index}>
+                                <Col xs={24} md={12} key={index}>
                                     <Card size="small" title={null} hoverable
                                         onClick={() => handleViewJob(item)}
                                     >

@@ -61,8 +61,8 @@ const JobListPage = () => {
       </Form>
       <Divider/>
       <Row gutter={[20, 20]}>
-        <Col>
-          <JobCard showPagination={showPagination} search={search} />
+        <Col style={{ width: "100%"}}>
+          <JobCard showPagination={showPagination} search={search}/>
         </Col>
       </Row>
     </div>

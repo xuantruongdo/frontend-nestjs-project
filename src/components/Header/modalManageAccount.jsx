@@ -316,6 +316,7 @@ const ChangePassword = () => {
     if (res && res.data) {
       setLoading(false);
       message.success("Thay đổi mật khẩu thành công")
+      form.resetFields();
     } else {
       notification.error({
         message: "Có lỗi xảy ra!",
